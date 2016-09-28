@@ -1,0 +1,27 @@
+{
+    "name": "klapuch/access",
+    "description": "access, authentication, login, register, forgotten password",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Dominik Klapuch",
+            "email": "klapuchdominik@gmail.com"
+        }
+    ],
+    "require": {
+        "klapuch/storage": "@dev",
+        "klapuch/encryption": "@dev",
+        "mockery/mockery": "^0.9.5"
+    },
+    "require-dev": {
+        "nette/tester": "^1.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Klapuch\\Access\\":[
+                "Core",
+                "Tests"
+            ]
+        }
+    }
+}
