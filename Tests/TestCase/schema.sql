@@ -41,7 +41,7 @@ CREATE TABLE forgotten_passwords (
     id integer NOT NULL,
     user_id integer NOT NULL,
     reminder character varying(141) NOT NULL,
-    used boolean NOT NULL,
+    used boolean DEFAULT false NOT NULL,
     reminded_at timestamp without time zone NOT NULL
 );
 
@@ -111,7 +111,7 @@ CREATE TABLE verification_codes (
     id integer NOT NULL,
     user_id integer NOT NULL,
     code character varying(91) NOT NULL,
-    used boolean NOT NULL,
+    used boolean DEFAULT false NOT NULL,
     used_at timestamp without time zone
 );
 
