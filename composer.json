@@ -1,6 +1,6 @@
 {
     "name": "klapuch/access",
-    "description": "access, authentication, login, register, forgotten password",
+    "description": "access, authentication, login, register",
     "type": "library",
     "authors": [
         {
