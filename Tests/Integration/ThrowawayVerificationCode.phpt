@@ -12,7 +12,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 final class ThrowawayVerificationCode extends TestCase\Database {
-	public function testSuccessfulUsing() {
+	public function testUsingYetValidCode() {
 		$this->prepareValidCode();
 		(new Access\ThrowawayVerificationCode(
 			'valid:code',

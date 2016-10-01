@@ -14,7 +14,7 @@ use Klapuch\Access\TestCase;
 require __DIR__ . '/../bootstrap.php';
 
 final class UserPassword extends TestCase\Database {
-    public function testChanging() {
+    public function testChangingWithHashing() {
         (new Access\UserPassword(
 			new Access\FakeUser(1),
             $this->database,

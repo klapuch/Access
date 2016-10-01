@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 final class SecureEntrance extends TestCase\Database {
-    public function testAuthenticating() {
+    public function testSuccessfulAuthenticating() {
 		$user = (new Access\SecureEntrance(
             $this->database,
             new Encryption\FakeCipher(true)
@@ -45,7 +45,7 @@ final class SecureEntrance extends TestCase\Database {
 	/**
 	 * @throws \Exception Email "unknown@bar.cz" does not exist
 	 */
-	public function testUnknownEmail() {
+	public function testAuthenticatingWithUnknownEmail() {
 		(new Access\SecureEntrance(
             $this->database,
             new Encryption\FakeCipher()
@@ -62,7 +62,7 @@ final class SecureEntrance extends TestCase\Database {
 		))->enter(['foo@bar.cz', '2heslo2']);
 	}
 
-    public function testRehasingPassword() {
+    public function testAuthenticatingRehasingPassword() {
         Assert::same(
             'heslo',
             $this->database->fetchColumn(
