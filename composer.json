@@ -1,27 +1,31 @@
 {
-    "name": "klapuch/access",
-    "description": "access, authentication, login, register",
-    "type": "library",
-    "authors": [
-        {
-            "name": "Dominik Klapuch",
-            "email": "klapuchdominik@gmail.com"
-        }
-    ],
-    "require": {
-        "klapuch/storage": "@dev",
-        "klapuch/encryption": "@dev"
-    },
-    "require-dev": {
-        "nette/tester": "^1.7",
-        "mockery/mockery": "^0.9.5"
-    },
-    "autoload": {
-        "psr-4": {
-            "Klapuch\\Access\\":[
-                "Core",
-                "Tests"
-            ]
-        }
-    }
+  "name": "klapuch/access",
+  "description": "access, authentication, login, register",
+  "homepage": "https://github.com/klapuch/access",
+  "type": "library",
+  "authors": [
+	{
+	  "name": "Dominik Klapuch",
+	  "email": "klapuchdominik@gmail.com",
+	  "homepage": "https://www.github.com/klapuch",
+	  "role": "Developer"
+	}
+  ],
+  "require": {
+    "php": ">=7.0",
+	"klapuch/storage": "@dev",
+	"klapuch/encryption": "@dev"
+  },
+  "require-dev": {
+	"nette/tester": "^1.7",
+	"mockery/mockery": "^0.9.5"
+  },
+  "autoload": {
+	"psr-4": {
+	  "Klapuch\\Access\\": [
+		"Core",
+		"Tests"
+	  ]
+	}
+  }
 }
