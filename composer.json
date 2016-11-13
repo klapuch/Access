@@ -13,8 +13,8 @@
   ],
   "require": {
     "php": ">=7.1",
-	"klapuch/storage": "@dev",
-	"klapuch/encryption": "@dev"
+	"klapuch/storage": "^1.0.0",
+	"klapuch/encryption": "^1.0.0"
   },
   "require-dev": {
 	"nette/tester": "^1.7",
@@ -23,8 +23,8 @@
   "autoload": {
 	"psr-4": {
 	  "Klapuch\\Access\\": [
-		"Core",
-		"Tests"
+		"Core/",
+		"Tests/"
 	  ]
 	}
   }
