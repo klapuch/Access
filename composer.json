@@ -23,7 +23,13 @@
   "autoload": {
 	"psr-4": {
 	  "Klapuch\\Access\\": [
-		"Core/",
+		"Core/"
+	  ]
+	}
+  },
+  "autoload-dev": {
+	"psr-4": {
+	  "Klapuch\\Access\\": [
 		"Tests/"
 	  ]
 	}
