@@ -8,5 +8,5 @@ interface VerificationCodes {
      * @param string $email
 	 * @return void
      */
-    public function generate(string $email);
+    public function generate(string $email): void;
 }

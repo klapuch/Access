@@ -9,7 +9,7 @@ final class FakeVerificationCode implements VerificationCode {
 	    $this->owner = $owner;
 	}
 
-	public function use() {
+	public function use(): void {
 
 	}
 

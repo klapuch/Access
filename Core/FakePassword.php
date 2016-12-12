@@ -6,6 +6,6 @@ namespace Klapuch\Access;
  * Fake
  */
 final class FakePassword implements Password {
-	public function change(string $password) {
+	public function change(string $password): void {
     }
 }

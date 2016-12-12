@@ -15,7 +15,7 @@ final class ReserveVerificationCodes implements VerificationCodes {
         $this->database = $database;
     }
 
-    public function generate(string $email) {
+    public function generate(string $email): void {
         $code = $this->database->fetchColumn(
             'SELECT code
             FROM verification_codes

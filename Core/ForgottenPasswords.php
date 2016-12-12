@@ -9,5 +9,5 @@ interface ForgottenPasswords {
      * @throws \OverflowException
      * @return void
      */
-    public function remind(string $email);
+    public function remind(string $email): void;
 }

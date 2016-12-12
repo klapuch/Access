@@ -16,7 +16,7 @@ final class ThrowawayVerificationCode implements VerificationCode {
         $this->database = $database;
     }
 
-    public function use() {
+    public function use(): void {
         if($this->used())
             throw new \Exception('Verification code was already used');
         $this->database->query(

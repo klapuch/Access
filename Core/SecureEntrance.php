@@ -22,7 +22,7 @@ final class SecureEntrance implements Entrance {
     }
 
     public function enter(array $credentials): User {
-        list($plainEmail, $plainPassword) = $credentials;
+        [$plainEmail, $plainPassword] = $credentials;
         $row = $this->database->fetch(
             'SELECT id, password
             FROM users  
@@ -55,7 +55,7 @@ final class SecureEntrance implements Entrance {
      * @param string $password
      * @param int $id
      */
-    private function rehash(string $password, int $id) {
+    private function rehash(string $password, int $id): void {
         $this->database->query(
             'UPDATE users
             SET password = ?

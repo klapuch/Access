@@ -6,7 +6,7 @@ namespace Klapuch\Access;
  * Fake
  */
 final class FakeForgottenPasswords implements ForgottenPasswords {
-	public function remind(string $email): Password {
-		return new FakePassword();
+	public function remind(string $email): void {
+
 	}
 }

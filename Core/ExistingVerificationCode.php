@@ -22,7 +22,7 @@ final class ExistingVerificationCode implements VerificationCode {
         $this->database = $database;
     }
 
-    public function use () {
+    public function use(): void {
         if(!$this->exists($this->code)) {
             throw new \Exception(
                 'The verification code does not exist'

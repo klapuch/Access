@@ -14,7 +14,7 @@ final class SecureForgottenPasswords implements ForgottenPasswords {
         $this->database = $database;
     }
 
-    public function remind(string $email) {
+    public function remind(string $email): void {
         $reminder = bin2hex(random_bytes(50)) . ':' . sha1($email);
         $this->database->query(
             'INSERT INTO forgotten_passwords (user_id, reminder, reminded_at) VALUES

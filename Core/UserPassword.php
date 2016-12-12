@@ -24,7 +24,7 @@ final class UserPassword implements Password {
         $this->cipher = $cipher;
     }
 
-    public function change(string $password) {
+    public function change(string $password): void {
         $this->database->query(
             'UPDATE users
             SET password = ?

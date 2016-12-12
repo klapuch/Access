@@ -18,7 +18,7 @@
   },
   "require-dev": {
 	"nette/tester": "^1.7",
-	"mockery/mockery": "^0.9.5"
+	"mockery/mockery": "@dev"
   },
   "autoload": {
 	"psr-4": {

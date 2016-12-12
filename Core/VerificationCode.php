@@ -8,7 +8,7 @@ interface VerificationCode {
 	 * @throws \Exception
 	 * @return void
 	 */
-	public function use();
+	public function use(): void;
 
 	/**
      * Owner of the verification code

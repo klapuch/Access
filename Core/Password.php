@@ -9,5 +9,5 @@ interface Password {
 	 * @throws \UnexpectedValueException
 	 * @return void
 	 */
-    public function change(string $password);
+    public function change(string $password): void;
 }

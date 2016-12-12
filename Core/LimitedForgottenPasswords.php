@@ -8,8 +8,8 @@ use Klapuch\Storage;
  * Collection of forgotten passwords which can be reminded just X times in Y hours
  */
 final class LimitedForgottenPasswords implements ForgottenPasswords {
-    const ATTEMPT_LIMIT = 3;
-    const HOUR_LIMIT = 24;
+    private const ATTEMPT_LIMIT = 3;
+    private const HOUR_LIMIT = 24;
     // 3 attempts in last 24 hours
     private $origin;
     private $database;
@@ -22,7 +22,7 @@ final class LimitedForgottenPasswords implements ForgottenPasswords {
         $this->database = $database;
     }
 
-    public function remind(string $email) {
+    public function remind(string $email): void {
         if($this->overstepped($email)) {
             throw new \OverflowException(
                 sprintf(

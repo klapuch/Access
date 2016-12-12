@@ -22,7 +22,7 @@ final class RemindedPassword implements Password {
         $this->origin = $origin;
     }
 
-	public function change(string $password) {
+	public function change(string $password): void {
 		if(!$this->exists($this->reminder))
 			throw new \UnexpectedValueException('The reminder does not exist');
         (new Storage\PostgresTransaction($this->database))->start(
