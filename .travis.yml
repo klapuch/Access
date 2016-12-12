@@ -4,8 +4,6 @@ services:
 addons:
   postgresql: 9.5
 
-dist: trusty
-
 language: php
 
 php:
