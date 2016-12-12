@@ -6,6 +6,7 @@ interface Password {
 	/**
 	 * Change password to the new given one
 	 * @param string $password
+	 * @throws \UnexpectedValueException
 	 * @return void
 	 */
     public function change(string $password);

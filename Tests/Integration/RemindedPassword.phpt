@@ -16,7 +16,12 @@ require __DIR__ . '/../bootstrap.php';
 final class RemindedPassword extends TestCase\Database {
     const REMINDER = '123456';
 
-    public function testChangingWithValidReminder() {
+	public function testChangingWithValidReminder() {
+		$this->database->query(
+			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
+			(1, FALSE, ?, NOW())",
+			[self::REMINDER]
+		);
         $newPassword = '123456789';
         $password = $this->mock(Access\Password::class);
         $password->shouldReceive('change')->once()->with($newPassword);
@@ -35,39 +40,19 @@ final class RemindedPassword extends TestCase\Database {
 		);
     }
 
+	/**
+	 * @throws \UnexpectedValueException The reminder does not exist
+	 */
     public function testChangingWithUnknownReminder() {
-        $newPassword = '123456789';
-        $password = $this->mock(Access\Password::class);
-        $password->shouldReceive('change')->once()->with($newPassword);
         (new Access\RemindedPassword(
 			'unknown:reminder',
 			$this->database,
-            $password
-		))->change($newPassword);
-        Assert::count(
-            1,
-			$this->database->fetchAll(
-				"SELECT id FROM forgotten_passwords"
-			)
-        );
-        Assert::false(
-			$this->database->fetchColumn(
-				"SELECT used
-				FROM forgotten_passwords
-                WHERE user_id = 1 AND reminder = ?",
-                [self::REMINDER]
-			)
-		);
+			new Access\FakePassword()
+		))->change('123456789');
     }
 
-
 	protected function prepareDatabase() {
-        $this->purge(['forgotten_passwords']);
-        $this->database->query(
-			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
-            (1, FALSE, ?, NOW())",
-            [self::REMINDER]
-		);
+		$this->purge(['forgotten_passwords']);
 	}
 }
 
