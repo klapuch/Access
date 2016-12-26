@@ -11,12 +11,13 @@ use Klapuch\Storage;
 final class ReserveVerificationCodes implements VerificationCodes {
     private $database;
 
-    public function __construct(Storage\Database $database) {
+    public function __construct(\PDO $database) {
         $this->database = $database;
     }
 
-    public function generate(string $email): void {
-        $code = $this->database->fetchColumn(
+	public function generate(string $email): void {
+		$code = (new Storage\ParameterizedQuery(
+			$this->database,
             'SELECT code
             FROM verification_codes
             WHERE user_id = (
@@ -26,7 +27,7 @@ final class ReserveVerificationCodes implements VerificationCodes {
             )
             AND used = FALSE',
             [$email]
-        );
+		))->field();
         if(!$code) {
             throw new \Exception(
                 'For the given email, there is no valid verification code'

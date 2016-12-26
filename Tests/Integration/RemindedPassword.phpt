@@ -17,11 +17,11 @@ final class RemindedPassword extends TestCase\Database {
     const REMINDER = '123456';
 
 	public function testChangingWithValidReminder() {
-		$this->database->query(
+		$statement = $this->database->prepare(
 			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
-			(1, FALSE, ?, NOW())",
-			[self::REMINDER]
+			(1, FALSE, ?, NOW())"
 		);
+		$statement->execute([self::REMINDER]);
         $newPassword = '123456789';
         $password = $this->mock(Access\Password::class);
         $password->shouldReceive('change')->once()->with($newPassword);
@@ -30,14 +30,13 @@ final class RemindedPassword extends TestCase\Database {
 			$this->database,
             $password
 		))->change($newPassword);
-		Assert::true(
-			$this->database->fetchColumn(
-				"SELECT used
-				FROM forgotten_passwords
-                WHERE user_id = 1 AND reminder = ?",
-                [self::REMINDER]
-			)
+		$statement = $this->database->prepare(
+			"SELECT used
+			FROM forgotten_passwords
+			WHERE user_id = 1 AND reminder = ?"
 		);
+		$statement->execute([self::REMINDER]);
+		Assert::true($statement->fetchColumn());
     }
 
 	/**

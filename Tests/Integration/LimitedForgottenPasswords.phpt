@@ -16,7 +16,7 @@ final class LimitedForgottenPasswords extends TestCase\Database {
 	 * @throws \OverflowException You have reached limit 3 forgotten passwords in last 24 hours
 	 */
 	public function testOversteppedReminding() {
-		$this->database->query(
+		$this->database->exec(
 			"INSERT INTO forgotten_passwords (id, user_id, reminded_at, reminder) VALUES 
 			(1, 1, NOW() - INTERVAL '1 HOUR', 'reminder1'),
 			(2, 1, NOW() - INTERVAL '2 HOUR', 'reminder2'),
@@ -29,7 +29,7 @@ final class LimitedForgottenPasswords extends TestCase\Database {
 	}
 
 	public function testRemindingInAllowedTimeRange() {
-		$this->database->query(
+		$this->database->exec(
 			"INSERT INTO forgotten_passwords (user_id, reminded_at, reminder) VALUES 
 			(1, NOW(), 'reminder0'),
 			(1, NOW() - INTERVAL '25 HOUR', 'reminder1'),
@@ -52,7 +52,7 @@ final class LimitedForgottenPasswords extends TestCase\Database {
 
 	protected function prepareDatabase() {
 		$this->purge(['users', 'forgotten_passwords']);
-		$this->database->query(
+		$this->database->exec(
 			"INSERT INTO users (id, email, password) VALUES
 			(1, 'foo@gmail.com', 'password')"
 		);

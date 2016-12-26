@@ -13,22 +13,20 @@ final class SecureEntrance implements Entrance {
     private $database;
     private $cipher;
 
-    public function __construct(
-        Storage\Database $database,
-        Encryption\Cipher $cipher
-    ) {
+    public function __construct(\PDO $database, Encryption\Cipher $cipher) {
         $this->database = $database;
         $this->cipher = $cipher;
     }
 
     public function enter(array $credentials): User {
-        [$plainEmail, $plainPassword] = $credentials;
-        $row = $this->database->fetch(
+		[$plainEmail, $plainPassword] = $credentials;
+		$row = (new Storage\ParameterizedQuery(
+			$this->database,
             'SELECT id, password
             FROM users  
             WHERE email IS NOT DISTINCT FROM ?',
             [$plainEmail]
-        );
+		))->row();
         if(!$this->exists($row)) {
             throw new \Exception(
                 sprintf('Email "%s" does not exist', $plainEmail)
@@ -55,12 +53,13 @@ final class SecureEntrance implements Entrance {
      * @param string $password
      * @param int $id
      */
-    private function rehash(string $password, int $id): void {
-        $this->database->query(
+	private function rehash(string $password, int $id): void {
+		(new Storage\ParameterizedQuery(
+			$this->database,
             'UPDATE users
             SET password = ?
             WHERE id IS NOT DISTINCT FROM ?',
             [$this->cipher->encrypt($password), $id]
-        );
+		))->execute();
     }
 }

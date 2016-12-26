@@ -16,7 +16,7 @@ final class UserPassword implements Password {
 
     public function __construct(
     	User $user,
-        Storage\Database $database,
+        \PDO $database,
         Encryption\Cipher $cipher
     ) {
         $this->user = $user;
@@ -25,11 +25,12 @@ final class UserPassword implements Password {
     }
 
     public function change(string $password): void {
-        $this->database->query(
+		(new Storage\ParameterizedQuery(
+			$this->database,
             'UPDATE users
             SET password = ?
             WHERE id = ?',
             [$this->cipher->encrypt($password), $this->user->id()]
-        );
+		))->execute();
     }
 }

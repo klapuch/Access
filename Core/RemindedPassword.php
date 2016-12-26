@@ -14,7 +14,7 @@ final class RemindedPassword implements Password {
 
     public function __construct(
         string $reminder,
-        Storage\Database $database,
+        \PDO $database,
         Password $origin
     ) {
         $this->reminder = $reminder;
@@ -25,15 +25,16 @@ final class RemindedPassword implements Password {
 	public function change(string $password): void {
 		if(!$this->exists($this->reminder))
 			throw new \UnexpectedValueException('The reminder does not exist');
-        (new Storage\PostgresTransaction($this->database))->start(
+        (new Storage\Transaction($this->database))->start(
             function() use($password) {
-                $this->origin->change($password);
-                $this->database->query(
+				$this->origin->change($password);
+				(new Storage\ParameterizedQuery(
+					$this->database,
                     'UPDATE forgotten_passwords
                     SET used = TRUE
                     WHERE reminder IS NOT DISTINCT FROM ?',
                     [$this->reminder]
-                );
+				))->execute();
             }
         );
 	}
@@ -44,11 +45,12 @@ final class RemindedPassword implements Password {
 	 * @return bool
 	 */
 	private function exists(string $reminder): bool {
-		return (bool)$this->database->fetchColumn(
+		return (bool)(new Storage\ParameterizedQuery(
+			$this->database,
 			'SELECT 1
 			FROM forgotten_passwords
 			WHERE reminder IS NOT DISTINCT FROM ?',
 			[$reminder]
-		);
+		))->field();
 	}
 }

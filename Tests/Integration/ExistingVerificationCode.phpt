@@ -62,14 +62,14 @@ final class ExistingVerificationCode extends TestCase\Database {
 
     protected function prepareDatabase() {
         $this->purge(['verification_codes', 'users']);
-        $this->database->query(
+        $this->database->exec(
             "INSERT INTO users (email, password) VALUES
             ('foo@bar.cz', 'secret')"
         );
     }
 
     private function prepareCode() {
-        $this->database->query(
+        $this->database->exec(
             "INSERT INTO verification_codes (user_id, code, used) VALUES
             (1, 'valid:code', FALSE)"
         );

@@ -15,19 +15,18 @@ final class SecureVerificationCodes extends TestCase\Database {
 	public function testGenerating() {
 		(new Access\SecureVerificationCodes($this->database))
 			->generate('fooBarEmail');
-		Assert::same(
-			91,
-			$this->database->fetchColumn(
-				'SELECT LENGTH(code)
-				FROM verification_codes
-				WHERE user_id = 1'
-			)
+		$statement = $this->database->prepare(
+			'SELECT LENGTH(code)
+			FROM verification_codes
+			WHERE user_id = 1'
 		);
+		$statement->execute();
+		Assert::same(91, $statement->fetchColumn());
 	}
 
 	protected function prepareDatabase() {
 		$this->purge(['verification_codes', 'users']);
-		$this->database->query(
+		$this->database->exec(
 			"INSERT INTO users (email, password) VALUES
 			('fooBarEmail', 'password')"
 		);

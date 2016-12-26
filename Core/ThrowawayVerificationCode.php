@@ -11,20 +11,21 @@ final class ThrowawayVerificationCode implements VerificationCode {
     private $code;
     private $database;
 
-    public function __construct(string $code, Storage\Database $database) {
+    public function __construct(string $code, \PDO $database) {
         $this->code = $code;
         $this->database = $database;
     }
 
     public function use(): void {
         if($this->used())
-            throw new \Exception('Verification code was already used');
-        $this->database->query(
+			throw new \Exception('Verification code was already used');
+		(new Storage\ParameterizedQuery(
+			$this->database,
             'UPDATE verification_codes
             SET used = TRUE, used_at = NOW()
             WHERE code IS NOT DISTINCT FROM ?',
             [$this->code]
-        );
+		))->execute();
     }
 
     public function owner(): User {
@@ -36,12 +37,13 @@ final class ThrowawayVerificationCode implements VerificationCode {
      * @return bool
      */
     private function used(): bool {
-        return (bool)$this->database->fetchColumn(
+		return (bool)(new Storage\ParameterizedQuery(
+			$this->database,
             'SELECT 1
             FROM verification_codes
             WHERE code IS NOT DISTINCT FROM ?
-            AND used = TRUE',
-            [$this->code]
-        );
+			AND used = TRUE',
+			[$this->code]
+		))->field();
     }
 }

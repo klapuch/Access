@@ -20,11 +20,11 @@ final class ExpirableRemindedPassword extends TestCase\Database {
 	 * @throws \UnexpectedValueException The reminder expired
 	 */
 	public function testOldRemindedPassword() {
-		$this->database->query(
+		$statement = $this->database->prepare(
 			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
-			(1, FALSE, ?, '2000-01-01')",
-			[self::REMINDER]
+			(1, FALSE, ?, '2000-01-01')"
 		);
+		$statement->execute([self::REMINDER]);
         (new Access\ExpirableRemindedPassword(
 			self::REMINDER,
 			$this->database,
@@ -33,13 +33,13 @@ final class ExpirableRemindedPassword extends TestCase\Database {
 	}
 
 	public function testFreshRemindedPassword() {
-		$this->database->query(
+		$statement = $this->database->prepare(
 			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
 			(1, FALSE, :reminder, NOW() - INTERVAL '10 MINUTE'),
 			(1, TRUE, :reminder, NOW() - INTERVAL '10 MINUTE'),
-			(1, FALSE, :reminder, NOW() - INTERVAL '20 MINUTE')",
-			[':reminder' => self::REMINDER]
+			(1, FALSE, :reminder, NOW() - INTERVAL '20 MINUTE')"
 		);
+		$statement->execute([':reminder' => self::REMINDER]);
 		Assert::noError(function() {
 			(new Access\ExpirableRemindedPassword(
 				self::REMINDER,

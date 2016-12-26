@@ -28,7 +28,7 @@ final class Applicant extends TestCase\Database {
 
     protected function prepareDatabase() {
         $this->purge(['verification_codes']);
-        $this->database->query(
+        $this->database->exec(
             "INSERT INTO verification_codes (user_id, code) VALUES
             (1, 'valid:code')"
         );

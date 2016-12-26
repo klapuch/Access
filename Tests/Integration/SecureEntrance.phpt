@@ -22,24 +22,19 @@ final class SecureEntrance extends TestCase\Database {
         Assert::same(1, $user->id());
 	}
 
-    public function testAuthenticatingWithoutRehashing() {
-        Assert::same(
-            'heslo',
-            $this->database->fetchColumn(
-                'SELECT password FROM users WHERE id = 1'
-            )
-        );
+	public function testAuthenticatingWithoutRehashing() {
+		$statement = $this->database->prepare(
+			'SELECT password FROM users WHERE id = 1'
+		);
+		$statement->execute();
+        Assert::same('heslo', $statement->fetchColumn());
 		$user = (new Access\SecureEntrance(
             $this->database,
             new Encryption\FakeCipher(true, false)
 		))->enter(['foo@bar.cz', 'heslo']);
-        Assert::same(1, $user->id());
-        Assert::same(
-            'heslo',
-            $this->database->fetchColumn(
-                'SELECT password FROM users WHERE id = 1'
-            )
-        );
+		Assert::same(1, $user->id());
+		$statement->execute();
+        Assert::same('heslo', $statement->fetchColumn());
 	}
 
 	/**
@@ -62,29 +57,24 @@ final class SecureEntrance extends TestCase\Database {
 		))->enter(['foo@bar.cz', '2heslo2']);
 	}
 
-    public function testAuthenticatingRehasingPassword() {
-        Assert::same(
-            'heslo',
-            $this->database->fetchColumn(
-                'SELECT password FROM users WHERE id = 1'
-            )
-        );
+	public function testAuthenticatingRehasingPassword() {
+		$statement = $this->database->prepare(
+			'SELECT password FROM users WHERE id = 1'
+		);
+		$statement->execute();
+        Assert::same('heslo', $statement->fetchColumn());
 		$user = (new Access\SecureEntrance(
             $this->database,
             new Encryption\FakeCipher(true, true)
 		))->enter(['foo@bar.cz', 'heslo']);
-        Assert::same(1, $user->id());
-        Assert::same(
-            'secret',
-            $this->database->fetchColumn(
-                'SELECT password FROM users WHERE id = 1'
-            )
-        );
+		Assert::same(1, $user->id());
+		$statement->execute();
+        Assert::same('secret', $statement->fetchColumn());
 	}
 
 	protected function prepareDatabase() {
 		$this->purge(['users']);
-		$this->database->query(
+		$this->database->exec(
 			"INSERT INTO users (email, password) VALUES
 			('foo@bar.cz', 'heslo')"
 		);

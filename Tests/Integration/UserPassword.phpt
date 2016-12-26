@@ -19,10 +19,12 @@ final class UserPassword extends TestCase\Database {
 			new Access\FakeUser(1),
             $this->database,
             new Encryption\FakeCipher()
-        ))->change('willBeEncrypted');
-        $user = $this->database->fetch(
+		))->change('willBeEncrypted');
+        $statement = $this->database->prepare(
             'SELECT email, password FROM users WHERE id = 1'
-        );
+		);
+		$statement->execute();
+		$user = $statement->fetch();
         Assert::same('secret', $user['password']);
     }
 
@@ -31,10 +33,12 @@ final class UserPassword extends TestCase\Database {
         	new Access\FakeUser(1),
             $this->database,
             new Encryption\FakeCipher()
-        ))->change('willBeEncrypted');
-        $users = $this->database->fetchAll(
+		))->change('willBeEncrypted');
+        $statement = $this->database->prepare(
             'SELECT id, password FROM users'
-        );
+		);
+		$statement->execute();
+		$users = $statement->fetchAll();
         Assert::count(2, $users);
         Assert::same(2, $users[0]['id']);
         Assert::same(1, $users[1]['id']);
@@ -44,7 +48,7 @@ final class UserPassword extends TestCase\Database {
 
     protected function prepareDatabase() {
         $this->purge(['users']);
-        $this->database->query(
+        $this->database->exec(
             "INSERT INTO users (email, password) VALUES
             ('foo@bar.cz', 'pass'),
             ('bar@foo.cz', 'pass')"

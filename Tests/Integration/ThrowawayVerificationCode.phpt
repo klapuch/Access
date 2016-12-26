@@ -18,20 +18,20 @@ final class ThrowawayVerificationCode extends TestCase\Database {
 			'valid:code',
 			$this->database
 		))->use();
-		Assert::true(
-			$this->database->fetchColumn(
-				"SELECT used
-				FROM verification_codes
-				WHERE code = 'valid:code'"
-			)
+		$statement = $this->database->prepare(
+			"SELECT used
+			FROM verification_codes
+			WHERE code = 'valid:code'"
 		);
+		$statement->execute();
+		Assert::true($statement->fetchColumn());
 	}
 
 	/**
 	 * @throws \Exception Verification code was already used
 	 */
 	public function testUsingAlreadyActivatedCode() {
-		$this->database->query(
+		$this->database->exec(
 			"INSERT INTO verification_codes (user_id, code, used, used_at) VALUES
 			(2, 'activated:code', TRUE, NOW())"
 		);
@@ -51,15 +51,15 @@ final class ThrowawayVerificationCode extends TestCase\Database {
 	}
 
 	private function prepareValidCode() {
-		$this->database->query(
+		$this->database->exec(
 			"INSERT INTO users (email, password) VALUES
 			('foo@gmail.com', 'password')"
         );
-        $this->database->query(
+        $this->database->exec(
 			"INSERT INTO users (email, password) VALUES
 			('bar@gmail.com', 'password')"
 		);
-		$this->database->query(
+		$this->database->exec(
 			"INSERT INTO verification_codes (user_id, code, used)
 			VALUES (1, 'valid:code', FALSE)"
 		);

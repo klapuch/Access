@@ -13,7 +13,7 @@ require __DIR__ . '/../bootstrap.php';
 
 final class ReserveVerificationCodes extends TestCase\Database {
 	public function testRegenerating() {
-		$this->database->query(
+		$this->database->exec(
 			"INSERT INTO verification_codes (user_id, code, used)
 			VALUES (1, '123456', FALSE)"
 		);
@@ -28,7 +28,7 @@ final class ReserveVerificationCodes extends TestCase\Database {
 	 * @throws \Exception For the given email, there is no valid verification code
 	 */
 	public function testRegeneratingForOnceUsedCode() {
-		$this->database->query(
+		$this->database->exec(
 			"INSERT INTO verification_codes (user_id, code, used, used_at)
 			VALUES (1, '123456', TRUE, NOW())"
 		);
@@ -39,7 +39,7 @@ final class ReserveVerificationCodes extends TestCase\Database {
 
 	protected function prepareDatabase() {
 		$this->purge(['verification_codes', 'users']);
-		$this->database->query(
+		$this->database->exec(
 			"INSERT INTO users (email, password) VALUES
 			('foo@bar.cz', 'password')"
 		);

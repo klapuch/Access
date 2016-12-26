@@ -28,7 +28,7 @@ final class ForgetfulUser extends TestCase\Database {
 
     protected function prepareDatabase() {
         $this->purge(['users']);
-        $this->database->query(
+        $this->database->exec(
             "INSERT INTO users (email, password) VALUES
             ('foo@bar.cz', 'secret')"
         );
