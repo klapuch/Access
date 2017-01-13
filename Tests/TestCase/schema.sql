@@ -19,7 +19,6 @@ SET row_security = off;
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
-
 --
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -75,7 +74,7 @@ ALTER SEQUENCE forgotten_passwords_id_seq OWNED BY forgotten_passwords.id;
 
 CREATE TABLE users (
     id integer NOT NULL,
-    email character varying NOT NULL,
+    email text NOT NULL,
     password character varying(255) NOT NULL
 );
 
@@ -172,8 +171,7 @@ ALTER TABLE ONLY forgotten_passwords
 -- Name: users_email; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY users
-    ADD CONSTRAINT users_email UNIQUE (email);
+CREATE UNIQUE INDEX users_email_unique_idx on users (LOWER(email)); 
 
 
 --

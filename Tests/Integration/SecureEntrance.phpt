@@ -14,12 +14,21 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 final class SecureEntrance extends TestCase\Database {
-    public function testSuccessfulAuthenticating() {
+    public function testSuccessfulAuthenticatingWithExactlySameCredentials() {
 		$user = (new Access\SecureEntrance(
             $this->database,
             new Encryption\FakeCipher(true)
 		))->enter(['foo@bar.cz', 'heslo']);
         Assert::same(1, $user->id());
+	}
+
+	public function testSuccessfulAuthenticatingWithCaseInsensitiveEmail() {
+		Assert::noError(function() {
+			(new Access\SecureEntrance(
+				$this->database,
+				new Encryption\FakeCipher(true)
+			))->enter(['FOO@bar.cz', 'heslo']);
+		});
 	}
 
 	public function testAuthenticatingWithoutRehashing() {

@@ -24,7 +24,7 @@ final class SecureEntrance implements Entrance {
 			$this->database,
             'SELECT id, password
             FROM users  
-            WHERE email IS NOT DISTINCT FROM ?',
+            WHERE LOWER(email) IS NOT DISTINCT FROM LOWER(?)',
             [$plainEmail]
 		))->row();
         if(!$this->exists($row)) {

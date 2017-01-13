@@ -18,7 +18,7 @@ final class ExistingVerificationCode extends TestCase\Database {
 	public function testUsingUnknownCode() {
 		(new Access\ExistingVerificationCode(
 			new Access\FakeVerificationCode(),
-			'valid:code',
+			'unknown:code',
 			$this->database
 		))->use();
 	}
@@ -34,6 +34,18 @@ final class ExistingVerificationCode extends TestCase\Database {
 				))->use();
 			}
 		);
+	}
+
+	/**
+	 * @throws \Exception The verification code does not exist
+	 */
+	public function testThrowingOnUsingCaseInsensitiveCode() {
+		$this->prepareCode();
+		(new Access\ExistingVerificationCode(
+			new Access\FakeVerificationCode(),
+			'VALID:code',
+			$this->database
+		))->use();
 	}
 
 	/**
