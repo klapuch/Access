@@ -19,7 +19,7 @@ final class ExpirableRemindedPassword extends TestCase\Database {
 	/**
 	 * @throws \UnexpectedValueException The reminder expired
 	 */
-	public function testOldRemindedPassword() {
+	public function testThrowinOnOldReminder() {
 		$statement = $this->database->prepare(
 			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
 			(1, FALSE, ?, '2000-01-01')"
@@ -32,7 +32,7 @@ final class ExpirableRemindedPassword extends TestCase\Database {
 		))->change('123456789');
 	}
 
-	public function testFreshRemindedPassword() {
+	public function testChangingPasswordWithFreshReminder() {
 		$statement = $this->database->prepare(
 			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
 			(1, FALSE, :reminder, NOW() - INTERVAL '10 MINUTE'),

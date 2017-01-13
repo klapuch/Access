@@ -15,7 +15,7 @@ final class ExistingVerificationCode extends TestCase\Database {
 	/**
 	 * @throws \Exception The verification code does not exist
 	 */
-	public function testUsingUnknownCode() {
+	public function testThrowingOnUsingUnknownCode() {
 		(new Access\ExistingVerificationCode(
 			new Access\FakeVerificationCode(),
 			'unknown:code',

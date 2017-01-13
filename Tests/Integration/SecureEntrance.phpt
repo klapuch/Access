@@ -49,7 +49,7 @@ final class SecureEntrance extends TestCase\Database {
 	/**
 	 * @throws \Exception Email "unknown@bar.cz" does not exist
 	 */
-	public function testAuthenticatingWithUnknownEmail() {
+	public function testThrowinOnAuthenticatingWithUnknownEmail() {
 		(new Access\SecureEntrance(
             $this->database,
             new Encryption\FakeCipher()
@@ -59,7 +59,7 @@ final class SecureEntrance extends TestCase\Database {
 	/**
 	 * @throws \Exception Wrong password
 	 */
-	public function testAuthenticatingWithWrongPassword() {
+	public function testThrowinOnAuthenticatingWithWrongPassword() {
 		(new Access\SecureEntrance(
             $this->database,
             new Encryption\FakeCipher(false)

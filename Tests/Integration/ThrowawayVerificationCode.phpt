@@ -12,7 +12,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 final class ThrowawayVerificationCode extends TestCase\Database {
-	public function testUsingYetValidCode() {
+	public function testUsingValidCode() {
 		$this->prepareValidCode();
 		(new Access\ThrowawayVerificationCode(
 			'valid:code',
@@ -30,7 +30,7 @@ final class ThrowawayVerificationCode extends TestCase\Database {
 	/**
 	 * @throws \Exception Verification code was already used
 	 */
-	public function testUsingAlreadyActivatedCode() {
+	public function testThrowinOnUsingAlreadyActivatedCode() {
 		$this->database->exec(
 			"INSERT INTO verification_codes (user_id, code, used, used_at) VALUES
 			(2, 'activated:code', TRUE, NOW())"

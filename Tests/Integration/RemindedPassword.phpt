@@ -42,7 +42,7 @@ final class RemindedPassword extends TestCase\Database {
 	/**
 	 * @throws \UnexpectedValueException The reminder does not exist
 	 */
-    public function testChangingWithUnknownReminder() {
+    public function testThrowingOnChangingWithUnknownReminder() {
         (new Access\RemindedPassword(
 			'unknown:reminder',
 			$this->database,

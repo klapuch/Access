@@ -27,7 +27,7 @@ final class ReserveVerificationCodes extends TestCase\Database {
 	/**
 	 * @throws \Exception For the given email, there is no valid verification code
 	 */
-	public function testRegeneratingForOnceUsedCode() {
+	public function testThrowingOnRegeneratingForOnceUsedCode() {
 		$this->database->exec(
 			"INSERT INTO verification_codes (user_id, code, used, used_at)
 			VALUES (1, '123456', TRUE, NOW())"
