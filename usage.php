@@ -39,17 +39,20 @@ $user = $entrance->enter(['email' => 'foo@bar.cz', 'password' => 'secret']);
 ))->remind('foo@bar.cz');
 
 // Send an email with the reminder
-
 (new Access\ExpirableRemindedPassword(
 	$reminder,
 	$this->database,
 	new Access\RemindedPassword(
 		$reminder,
 		$database,
-		new Access\UserPassword(
-			new Access\ForgetfulUser('foo@bar.cz', $database),
-			$database,
-			$cipher
+		new Access\ThrowawayVerificationCode(
+			$reminder,
+			$this->database,
+			new Access\UserPassword(
+				new Access\ForgetfulUser('foo@bar.cz', $database),
+				$database,
+				$cipher
+			)
 		)
 	)
 ))->change('new password');
