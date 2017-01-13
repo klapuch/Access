@@ -41,15 +41,6 @@ final class ThrowawayVerificationCode extends TestCase\Database {
 		))->use();
 	}
 
-	public function testOwner() {
-		$this->prepareValidCode();
-		$user = (new Access\ThrowawayVerificationCode(
-			'valid:code',
-			$this->database
-		))->owner();
-		Assert::same(1, $user->id());
-	}
-
 	private function prepareValidCode() {
 		$this->database->exec(
 			"INSERT INTO users (email, password) VALUES

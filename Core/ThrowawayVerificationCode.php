@@ -28,10 +28,6 @@ final class ThrowawayVerificationCode implements VerificationCode {
 		))->execute();
     }
 
-    public function owner(): User {
-        return new Applicant($this->code, $this->database);
-    }
-
     /**
      * Was the verification code already used?
      * @return bool

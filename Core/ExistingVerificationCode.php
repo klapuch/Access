@@ -31,15 +31,6 @@ final class ExistingVerificationCode implements VerificationCode {
 		$this->origin->use();
 	}
 
-	public function owner(): User {
-		if(!$this->exists($this->code)) {
-			throw new \Exception(
-				'Nobody owns the verification code'
-			);
-		}
-		return $this->origin->owner();
-	}
-
 	/**
 	 * Does the verification code exist?
 	 * @param string $code

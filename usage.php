@@ -17,13 +17,16 @@ $verificationCode = new Access\ExistingVerificationCode(
 	$this->database
 );
 $verificationCode->use();
-$owner = $verificationCode->owner();
-// Log user with the known ID from the owner
 /************************************************************************/
 
 
 
 /************************************************************************/
+/** Entering to the system for the first time */
+$entrance = new Access\WelcomingEntrance($this->database);
+$user = $entrance->enter(['code' => 'valid:code']);
+
+
 /** Entering to the system */
 $entrance = new Access\VerifiedEntrance(
 	$this->database,

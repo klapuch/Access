@@ -9,11 +9,4 @@ interface VerificationCode {
 	 * @return void
 	 */
 	public function use(): void;
-
-	/**
-     * Owner of the verification code
-     * @return User
-	 * @throws \Exception
-	 */
-	public function owner(): User;
 }

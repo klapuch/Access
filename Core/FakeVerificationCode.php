@@ -12,8 +12,4 @@ final class FakeVerificationCode implements VerificationCode {
 	public function use(): void {
 
 	}
-
-	public function owner(): User {
-		return $this->owner;
-	}
 }

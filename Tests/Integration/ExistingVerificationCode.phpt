@@ -48,30 +48,6 @@ final class ExistingVerificationCode extends TestCase\Database {
 		))->use();
 	}
 
-	/**
-	 * @throws \Exception Nobody owns the verification code
-	 */
-	public function testCodeWithoutOwner() {
-		(new Access\ExistingVerificationCode(
-			new Access\FakeVerificationCode(),
-			'valid:code',
-			$this->database
-		))->owner();
-	}
-
-	public function testOwnedCode() {
-		$this->prepareCode();
-		$owner = new Access\FakeUser();
-		Assert::same(
-			$owner,
-			(new Access\ExistingVerificationCode(
-				new Access\FakeVerificationCode($owner),
-				'valid:code',
-				$this->database
-			))->owner()
-		);
-	}
-
     protected function prepareDatabase() {
         $this->purge(['verification_codes', 'users']);
         $this->database->exec(
