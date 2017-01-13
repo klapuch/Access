@@ -24,7 +24,7 @@ $verificationCode->use();
 /************************************************************************/
 /** Entering to the system for the first time */
 $entrance = new Access\WelcomingEntrance($this->database);
-$user = $entrance->enter(['code' => 'valid:code']);
+$user = $entrance->enter(['valid:code']);
 
 
 /** Entering to the system */
@@ -32,7 +32,7 @@ $entrance = new Access\VerifiedEntrance(
 	$this->database,
 	new Access\SecureEntrance($this->database, $cipher)
 );
-$user = $entrance->enter(['email' => 'foo@bar.cz', 'password' => 'secret']);
+$user = $entrance->enter(['foo@bar.cz', 'secret']);
 /************************************************************************/
 
 
