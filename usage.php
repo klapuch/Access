@@ -4,17 +4,17 @@ use Klapuch\Access;
 
 /************************************************************************/
 /** Registration phase with verification code */
-(new Access\SecureVerificationCodes($database))->generate('foo@bar.cz');
+(new Access\SecureVerificationCodes($this->database))->generate('foo@bar.cz');
 
 // No email was received?
-(new Access\ReserveVerificationCodes($database))->generate('foo@bar.cz');
+(new Access\ReserveVerificationCodes($this->database))->generate('foo@bar.cz');
 
 // Send an email with the verfication code
 
 $verificationCode = new Access\ExistingVerificationCode(
-	new Access\ThrowawayVerificationCode('valid:code', $database),
+	new Access\ThrowawayVerificationCode('valid:code', $this->database),
 	'valid:code',
-	$database
+	$this->database
 );
 $verificationCode->use();
 $owner = $verificationCode->owner();
@@ -25,7 +25,10 @@ $owner = $verificationCode->owner();
 
 /************************************************************************/
 /** Entering to the system */
-$entrance = new Access\SecureEntrance($database, $cipher);
+$entrance = new Access\VerifiedEntrance(
+	$this->database,
+	new Access\SecureEntrance($this->database, $cipher)
+);
 $user = $entrance->enter(['email' => 'foo@bar.cz', 'password' => 'secret']);
 /************************************************************************/
 
@@ -44,13 +47,13 @@ $user = $entrance->enter(['email' => 'foo@bar.cz', 'password' => 'secret']);
 	$this->database,
 	new Access\RemindedPassword(
 		$reminder,
-		$database,
+		$this->database,
 		new Access\ThrowawayVerificationCode(
 			$reminder,
 			$this->database,
 			new Access\UserPassword(
-				new Access\ForgetfulUser('foo@bar.cz', $database),
-				$database,
+				new Access\ForgetfulUser('foo@bar.cz', $this->database),
+				$this->database,
 				$cipher
 			)
 		)
