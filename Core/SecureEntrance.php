@@ -22,7 +22,7 @@ final class SecureEntrance implements Entrance {
 		[$plainEmail, $plainPassword] = $credentials;
 		$row = (new Storage\ParameterizedQuery(
 			$this->database,
-            'SELECT id, password
+            'SELECT *
             FROM users  
             WHERE LOWER(email) IS NOT DISTINCT FROM LOWER(?)',
             [$plainEmail]
@@ -36,7 +36,7 @@ final class SecureEntrance implements Entrance {
         }
         if($this->cipher->deprecated($row['password']))
             $this->rehash($plainPassword, $row['id']);
-        return new ConstantUser($row['id']);
+		return new ConstantUser($row['id'], $row);
     }
 
     /**

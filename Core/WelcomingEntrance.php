@@ -16,14 +16,15 @@ final class WelcomingEntrance implements Entrance {
 
     public function enter(array $credentials): User {
 		[$code] = $credentials;
-		$id = (int)(new Storage\ParameterizedQuery(
+		$row = (new Storage\ParameterizedQuery(
 			$this->database,
-			'SELECT user_id
+			'SELECT users.*
 			FROM verification_codes
+			INNER JOIN users ON users.id = user_id
 			WHERE code IS NOT DISTINCT FROM ?
 			AND used = TRUE',
 			[$code]
-		))->field();
-		return new ConstantUser($id);
+		))->row();
+		return new ConstantUser($row['id'] ?? 0, $row);
     }
 }

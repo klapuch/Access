@@ -12,32 +12,36 @@ use Klapuch\Access\TestCase;
 require __DIR__ . '/../bootstrap.php';
 
 final class WelcomingEntrance extends TestCase\Database {
-	public function testEnteringWithUnusedCode() {
+	public function testEnteringWithUsedCode() {
 		$user = (new Access\WelcomingEntrance(
 			$this->database
 		))->enter(['used:code']);
-        Assert::equal(new Access\ConstantUser(1), $user);
+        Assert::same(1, $user->id());
 	}
 
-	public function testNoMatchOnEnteringWithUsedCode() {
+	public function testNoMatchOnEnteringWithUnusedCode() {
 		$user = (new Access\WelcomingEntrance(
 			$this->database
 		))->enter(['unused:code']);
-        Assert::equal(new Access\ConstantUser(0), $user);
+        Assert::same(0, $user->id());
 	}
 
 	public function testNoMatchOnEnteringWithCaseInsensitiveCode() {
 		$user = (new Access\WelcomingEntrance(
 			$this->database
 		))->enter(['USED:code']);
-        Assert::equal(new Access\ConstantUser(0), $user);
-    }
+        Assert::same(0, $user->id());
+	}
 
     protected function prepareDatabase() {
-        $this->purge(['verification_codes']);
+        $this->purge(['verification_codes', 'users']);
         $this->database->exec(
             "INSERT INTO verification_codes (user_id, code, used) VALUES
             (1, 'used:code', TRUE), (2, 'unused:code', FALSE)"
+		);
+        $this->database->exec(
+            "INSERT INTO users (id, email, password) VALUES
+            (1, 'foo@bar.cz', 'secret'), (2, 'known@email.cz', 'secret')"
         );
     }
 }

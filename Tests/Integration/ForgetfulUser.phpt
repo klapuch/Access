@@ -12,18 +12,16 @@ use Klapuch\Access\TestCase;
 require __DIR__ . '/../bootstrap.php';
 
 final class ForgetfulUser extends TestCase\Database {
-    public function testIdWithKnownCode() {
-        Assert::same(
-            1,
-            (new Access\ForgetfulUser('foo@bar.cz', $this->database))->id()
-        );
+	public function testUserWithKnownCode() {
+		$user = new Access\ForgetfulUser('foo@bar.cz', $this->database);
+        Assert::same(1, $user->id());
+        Assert::same(['email' => 'foo@bar.cz'], $user->properties());
     }
 
-    public function testIdWithUnknownCode() {
-        Assert::same(
-            0,
-            (new Access\ForgetfulUser('unknown@bar.cz', $this->database))->id()
-        );
+    public function testUserWithUnknownCode() {
+		$user = new Access\ForgetfulUser('unknown@bar.cz', $this->database);
+        Assert::same(0, $user->id());
+        Assert::same([], $user->properties());
     }
 
     protected function prepareDatabase() {

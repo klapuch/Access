@@ -24,5 +24,16 @@ final class ForgetfulUser implements User {
             WHERE email IS NOT DISTINCT FROM ?',
             [$this->email]
 		))->field();
-    }
+	}
+
+	public function properties(): array {
+		$user = (new Storage\ParameterizedQuery(
+			$this->database,
+            'SELECT *
+            FROM users
+            WHERE id IS NOT DISTINCT FROM ?',
+            [$this->id()]
+		))->row();
+		return (new ConstantUser($user['id'] ?? 0, $user))->properties();
+	}
 }

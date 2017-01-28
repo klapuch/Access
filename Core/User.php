@@ -8,4 +8,10 @@ interface User {
      * @return int
      */
     public function id(): int;
+
+	/**
+	 * Properties of the user such as email, role, username, etc.
+	 * @return array
+	 */
+	public function properties(): array;
 }

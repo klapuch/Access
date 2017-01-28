@@ -6,13 +6,24 @@ namespace Klapuch\Access;
  * Constant user without any roundtrips
  */
 final class ConstantUser implements User {
+	private const SENSITIVE_FIELDS = ['id', 'password'];
     private $id;
+    private $properties;
 
-    public function __construct(int $id) {
+    public function __construct(int $id, array $properties) {
         $this->id = $id;
+        $this->properties = $properties;
     }
 
     public function id(): int {
         return $this->id;
-    }
+	}
+
+	public function properties(): array {
+		return array_diff_ukey(
+			$this->properties,
+			array_flip(self::SENSITIVE_FIELDS),
+			'strcasecmp'
+		);
+	}
 }
