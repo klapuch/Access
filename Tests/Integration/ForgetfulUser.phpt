@@ -15,7 +15,10 @@ final class ForgetfulUser extends TestCase\Database {
 	public function testUserWithKnownCode() {
 		$user = new Access\ForgetfulUser('foo@bar.cz', $this->database);
         Assert::same(1, $user->id());
-        Assert::same(['email' => 'foo@bar.cz'], $user->properties());
+		Assert::same(
+			['email' => 'foo@bar.cz', 'role' => 'member'],
+			$user->properties()
+		);
     }
 
     public function testUserWithUnknownCode() {
@@ -27,8 +30,8 @@ final class ForgetfulUser extends TestCase\Database {
     protected function prepareDatabase() {
         $this->purge(['users']);
         $this->database->exec(
-            "INSERT INTO users (email, password) VALUES
-            ('foo@bar.cz', 'secret')"
+            "INSERT INTO users (email, password, role) VALUES
+            ('foo@bar.cz', 'secret', 'member')"
         );
     }
 }

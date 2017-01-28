@@ -27,8 +27,8 @@ final class SecureVerificationCodes extends TestCase\Database {
 	protected function prepareDatabase() {
 		$this->purge(['verification_codes', 'users']);
 		$this->database->exec(
-			"INSERT INTO users (email, password) VALUES
-			('fooBarEmail', 'password')"
+			"INSERT INTO users (email, password, role) VALUES
+			('fooBarEmail', 'password', 'member')"
 		);
 	}
 }

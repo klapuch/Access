@@ -36,8 +36,9 @@ final class VerifiedEntrance extends TestCase\Database {
 	protected function prepareDatabase() {
 		$this->purge(['users', 'verification_codes']);
 		$this->database->exec(
-			"INSERT INTO users (email, password) VALUES
-			('verified@bar.cz', 'heslo'), ('unverified@bar.cz', 'heslo')"
+			"INSERT INTO users (email, password, role) VALUES
+			('verified@bar.cz', 'heslo', 'member'),
+			('unverified@bar.cz', 'heslo', 'member')"
 		);
 		$this->database->exec(
 			"INSERT INTO verification_codes (user_id, code, used) VALUES

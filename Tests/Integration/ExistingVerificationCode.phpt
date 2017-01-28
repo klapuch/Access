@@ -51,8 +51,8 @@ final class ExistingVerificationCode extends TestCase\Database {
     protected function prepareDatabase() {
         $this->purge(['verification_codes', 'users']);
         $this->database->exec(
-            "INSERT INTO users (email, password) VALUES
-            ('foo@bar.cz', 'secret')"
+            "INSERT INTO users (email, password, role) VALUES
+            ('foo@bar.cz', 'secret', 'member')"
         );
     }
 

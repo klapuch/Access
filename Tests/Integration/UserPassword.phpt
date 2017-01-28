@@ -49,9 +49,9 @@ final class UserPassword extends TestCase\Database {
     protected function prepareDatabase() {
         $this->purge(['users']);
         $this->database->exec(
-            "INSERT INTO users (email, password) VALUES
-            ('foo@bar.cz', 'pass'),
-            ('bar@foo.cz', 'pass')"
+            "INSERT INTO users (email, password, role) VALUES
+            ('foo@bar.cz', 'pass', 'member'),
+            ('bar@foo.cz', 'pass', 'member')"
         );
     }
 }

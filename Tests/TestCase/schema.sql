@@ -75,6 +75,7 @@ ALTER SEQUENCE forgotten_passwords_id_seq OWNED BY forgotten_passwords.id;
 CREATE TABLE users (
     id integer NOT NULL,
     email text NOT NULL,
+    role character varying NOT NULL,
     password character varying(255) NOT NULL
 );
 

@@ -40,8 +40,9 @@ final class WelcomingEntrance extends TestCase\Database {
             (1, 'used:code', TRUE), (2, 'unused:code', FALSE)"
 		);
         $this->database->exec(
-            "INSERT INTO users (id, email, password) VALUES
-            (1, 'foo@bar.cz', 'secret'), (2, 'known@email.cz', 'secret')"
+            "INSERT INTO users (id, email, password, role) VALUES
+			(1, 'foo@bar.cz', 'secret', 'member'),
+			(2, 'known@email.cz', 'secret', 'member')"
         );
     }
 }

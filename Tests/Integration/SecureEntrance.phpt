@@ -84,8 +84,8 @@ final class SecureEntrance extends TestCase\Database {
 	protected function prepareDatabase() {
 		$this->purge(['users']);
 		$this->database->exec(
-			"INSERT INTO users (email, password) VALUES
-			('foo@bar.cz', 'heslo')"
+			"INSERT INTO users (email, password, role) VALUES
+			('foo@bar.cz', 'heslo', 'member')"
 		);
 	}
 }

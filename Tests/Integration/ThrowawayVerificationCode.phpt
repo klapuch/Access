@@ -43,13 +43,10 @@ final class ThrowawayVerificationCode extends TestCase\Database {
 
 	private function prepareValidCode() {
 		$this->database->exec(
-			"INSERT INTO users (email, password) VALUES
-			('foo@gmail.com', 'password')"
+			"INSERT INTO users (email, password, role) VALUES
+			('foo@gmail.com', 'password', 'member'),
+			('ber@gmail.com', 'password', 'member')"
         );
-        $this->database->exec(
-			"INSERT INTO users (email, password) VALUES
-			('bar@gmail.com', 'password')"
-		);
 		$this->database->exec(
 			"INSERT INTO verification_codes (user_id, code, used)
 			VALUES (1, 'valid:code', FALSE)"

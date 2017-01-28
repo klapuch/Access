@@ -37,8 +37,8 @@ final class SecureForgottenPasswords extends TestCase\Database {
 	protected function prepareDatabase() {
 		$this->purge(['forgotten_passwords', 'users']);
 		$this->database->exec(
-			"INSERT INTO users (email, password) VALUES
-			('foo@bar.cz', '123')"
+			"INSERT INTO users (email, password, role) VALUES
+			('foo@bar.cz', '123', 'member')"
 		);
 	}
 }
