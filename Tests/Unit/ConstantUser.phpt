@@ -7,11 +7,11 @@ namespace Klapuch\Access\Unit;
 
 use Klapuch\Access;
 use Tester\Assert;
-use Klapuch\Access\TestCase;
+use Tester;
 
 require __DIR__ . '/../bootstrap.php';
 
-final class ConstantUser extends TestCase\Database {
+final class ConstantUser extends Tester\TestCase {
 	public function testPropertiesWithoutSensitiveData() {
 		$user = new Access\ConstantUser(
 			1, ['id' => 1, 'email' => '@', 'role' => ['master'], 'password' => 'secret']
