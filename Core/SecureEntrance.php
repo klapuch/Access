@@ -7,7 +7,7 @@ use Klapuch\{
 };
 
 /**
- * Secure entrance for logging users to the system
+ * Secure entrance for entering users to the system
  */
 final class SecureEntrance implements Entrance {
     private $database;
@@ -20,23 +20,23 @@ final class SecureEntrance implements Entrance {
 
     public function enter(array $credentials): User {
 		[$plainEmail, $plainPassword] = $credentials;
-		$row = (new Storage\ParameterizedQuery(
+		$user = (new Storage\ParameterizedQuery(
 			$this->database,
             'SELECT *
             FROM users  
             WHERE LOWER(email) IS NOT DISTINCT FROM LOWER(?)',
             [$plainEmail]
 		))->row();
-        if(!$this->exists($row)) {
+        if(!$this->exists($user)) {
             throw new \Exception(
                 sprintf('Email "%s" does not exist', $plainEmail)
             );
-        } elseif(!$this->cipher->decrypted($plainPassword, $row['password'])) {
+        } elseif(!$this->cipher->decrypted($plainPassword, $user['password'])) {
             throw new \Exception('Wrong password');
         }
-        if($this->cipher->deprecated($row['password']))
-            $this->rehash($plainPassword, $row['id']);
-		return new ConstantUser($row['id'], $row);
+        if($this->cipher->deprecated($user['password']))
+            $this->rehash($plainPassword, $user['id']);
+		return new ConstantUser($user['id'], $user);
     }
 
     /**
@@ -46,7 +46,7 @@ final class SecureEntrance implements Entrance {
      */
     private function exists(array $row): bool {
         return (bool)$row;
-    }
+	}
 
     /**
      * Rehash the password with the newest one

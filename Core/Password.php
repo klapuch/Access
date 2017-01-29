@@ -4,7 +4,7 @@ namespace Klapuch\Access;
 
 interface Password {
 	/**
-	 * Change password to the new given one
+	 * Change password to the new one
 	 * @param string $password
 	 * @throws \UnexpectedValueException
 	 * @return void
