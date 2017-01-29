@@ -31,7 +31,7 @@ final class SecureEntrance implements Entrance {
             throw new \Exception(
                 sprintf('Email "%s" does not exist', $plainEmail)
             );
-        } elseif(!$this->cipher->decrypt($plainPassword, $row['password'])) {
+        } elseif(!$this->cipher->decrypted($plainPassword, $row['password'])) {
             throw new \Exception('Wrong password');
         }
         if($this->cipher->deprecated($row['password']))
@@ -59,7 +59,7 @@ final class SecureEntrance implements Entrance {
             'UPDATE users
             SET password = ?
             WHERE id IS NOT DISTINCT FROM ?',
-            [$this->cipher->encrypt($password), $id]
+            [$this->cipher->encryption($password), $id]
 		))->execute();
     }
 }

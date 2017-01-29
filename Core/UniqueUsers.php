@@ -24,7 +24,7 @@ final class UniqueUsers implements Users {
 				$this->database,
 				'INSERT INTO users(email, password, role) VALUES
 				(?, ?, ?) RETURNING *',
-				[$email, $this->cipher->encrypt($password), $role]
+				[$email, $this->cipher->encryption($password), $role]
 			))->row();
 			return new ConstantUser($row['id'], $row);
 		} catch(Storage\UniqueConstraint $ex) {

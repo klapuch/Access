@@ -30,7 +30,7 @@ final class UserPassword implements Password {
             'UPDATE users
             SET password = ?
             WHERE id = ?',
-            [$this->cipher->encrypt($password), $this->user->id()]
+            [$this->cipher->encryption($password), $this->user->id()]
 		))->execute();
     }
 }
