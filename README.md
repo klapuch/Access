@@ -1,2 +1,2 @@
 # Access
-[![Build Status](https://travis-ci.org/klapuch/Access.svg?branch=master)](https://travis-ci.org/klapuch/Access) [![Coverage Status](https://coveralls.io/repos/github/klapuch/Access/badge.svg?branch=master)](https://coveralls.io/github/klapuch/Access?branch=master)
+[![Build Status](https://travis-ci.org/klapuch/Access.svg?branch=master)](https://travis-ci.org/klapuch/Access) [![Build status](https://ci.appveyor.com/api/projects/status/19ccm35b8xjnm8lm/branch/master?svg=true)](https://ci.appveyor.com/project/facedown/access/branch/master) [![Coverage Status](https://coveralls.io/repos/github/klapuch/Access/badge.svg?branch=master)](https://coveralls.io/github/klapuch/Access?branch=master)
