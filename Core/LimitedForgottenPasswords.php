@@ -8,8 +8,8 @@ use Klapuch\Storage;
  * Collection of forgotten passwords which can be reminded just X times in Y hours
  */
 final class LimitedForgottenPasswords implements ForgottenPasswords {
-	private const ATTEMPT_LIMIT = 3;
-	private const HOUR_LIMIT = 24;
+	private const ATTEMPT_LIMIT = 3,
+		HOUR_LIMIT = 24;
 	// 3 attempts in last 24 hours
 	private $origin;
 	private $database;
