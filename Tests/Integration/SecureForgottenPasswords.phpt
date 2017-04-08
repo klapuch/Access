@@ -5,9 +5,7 @@
  */
 namespace Klapuch\Access\Integration;
 
-use Klapuch\{
-    Access, Encryption
-};
+use Klapuch\Access;
 use Klapuch\Access\TestCase;
 use Tester\Assert;
 

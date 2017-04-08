@@ -19,8 +19,8 @@ final class SecureVerificationCodes implements VerificationCodes {
 		$code = bin2hex(random_bytes(25)) . ':' . sha1($email);
 		(new Storage\ParameterizedQuery(
 			$this->database,
-			'INSERT INTO verification_codes (user_id, code)
-			VALUES ((SELECT id FROM users WHERE email IS NOT DISTINCT FROM ?), ?)',
+			'INSERT INTO verification_codes (user_id, code, used)
+			VALUES ((SELECT id FROM users WHERE email IS NOT DISTINCT FROM ?), ?, FALSE)',
 			[$email, $code]
 		))->execute();
 	}

@@ -19,8 +19,8 @@ final class SecureForgottenPasswords implements ForgottenPasswords {
 		$reminder = bin2hex(random_bytes(50)) . ':' . sha1($email);
 		(new Storage\ParameterizedQuery(
 			$this->database,
-			'INSERT INTO forgotten_passwords (user_id, reminder, reminded_at) VALUES
-			((SELECT id FROM users WHERE email IS NOT DISTINCT FROM ?), ?, NOW())',
+			'INSERT INTO forgotten_passwords (user_id, reminder, reminded_at, used) VALUES
+			((SELECT id FROM users WHERE email IS NOT DISTINCT FROM ?), ?, NOW(), FALSE)',
 			[$email, $reminder]
 		))->execute();
 	}

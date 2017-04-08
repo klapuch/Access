@@ -17,10 +17,10 @@ final class LimitedForgottenPasswords extends TestCase\Database {
 	 */
 	public function testThrowinOnOversteppedReminding() {
 		$this->database->exec(
-			"INSERT INTO forgotten_passwords (id, user_id, reminded_at, reminder) VALUES 
-			(1, 1, NOW() - INTERVAL '1 HOUR', 'reminder1'),
-			(2, 1, NOW() - INTERVAL '2 HOUR', 'reminder2'),
-			(3, 1, NOW() - INTERVAL '3 HOUR', 'reminder3')"
+			"INSERT INTO forgotten_passwords (id, user_id, reminded_at, reminder, used) VALUES 
+			(1, 1, NOW() - INTERVAL '1 HOUR', 'reminder1', FALSE),
+			(2, 1, NOW() - INTERVAL '2 HOUR', 'reminder2', FALSE),
+			(3, 1, NOW() - INTERVAL '3 HOUR', 'reminder3', FALSE)"
 		);
 		(new Access\LimitedForgottenPasswords(
 			new Access\FakeForgottenPasswords,
@@ -30,15 +30,15 @@ final class LimitedForgottenPasswords extends TestCase\Database {
 
 	public function testRemindingInAllowedTimeRange() {
 		$this->database->exec(
-			"INSERT INTO forgotten_passwords (user_id, reminded_at, reminder) VALUES 
-			(1, NOW(), 'reminder0'),
-			(1, NOW() - INTERVAL '25 HOUR', 'reminder1'),
-			(1, NOW() - INTERVAL '25 HOUR', 'reminder2'),
-			(1, NOW() - INTERVAL '25 HOUR', 'reminder3'),
-			(1, NOW() - INTERVAL '24 HOUR', 'reminder4'),
-			(1, NOW() - INTERVAL '24 HOUR', 'reminder5'),
-			(1, NOW() - INTERVAL '24 HOUR', 'reminder6'),
-			(1, NOW() - INTERVAL '26 HOUR', 'reminder7')"
+			"INSERT INTO forgotten_passwords (user_id, reminded_at, reminder, used) VALUES 
+			(1, NOW(), 'reminder0', FALSE),
+			(1, NOW() - INTERVAL '25 HOUR', 'reminder1', FALSE),
+			(1, NOW() - INTERVAL '25 HOUR', 'reminder2', FALSE),
+			(1, NOW() - INTERVAL '25 HOUR', 'reminder3', FALSE),
+			(1, NOW() - INTERVAL '24 HOUR', 'reminder4', FALSE),
+			(1, NOW() - INTERVAL '24 HOUR', 'reminder5', FALSE),
+			(1, NOW() - INTERVAL '24 HOUR', 'reminder6', FALSE),
+			(1, NOW() - INTERVAL '26 HOUR', 'reminder7', FALSE)"
 		);
 		Assert::noError(
 			function() {
