@@ -7,7 +7,7 @@ interface VerificationCodes {
 	/**
 	 * Generate a new unique verification code for the given email
 	 * @param string $email
-	 * @return string
+	 * @return void
 	 */
-	public function generate(string $email): string;
+	public function generate(string $email): void;
 }

@@ -15,7 +15,7 @@ final class SecureVerificationCodes implements VerificationCodes {
 		$this->database = $database;
 	}
 
-	public function generate(string $email): string {
+	public function generate(string $email): void {
 		$code = bin2hex(random_bytes(25)) . ':' . sha1($email);
 		(new Storage\ParameterizedQuery(
 			$this->database,
@@ -23,6 +23,5 @@ final class SecureVerificationCodes implements VerificationCodes {
 			VALUES ((SELECT id FROM users WHERE email IS NOT DISTINCT FROM ?), ?)',
 			[$email, $code]
 		))->execute();
-		return $code;
 	}
 }

@@ -1,13 +1,20 @@
 <?php
 declare(strict_types = 1);
 use Klapuch\Access;
+use Klapuch\Output;
+use Nette\Mail;
 
 /************************************************************************/
 /** Registration phase with verification code */
 (new Access\SecureVerificationCodes($this->database))->generate('foo@bar.cz');
 
 // No email was received?
-(new Access\ReserveVerificationCodes($this->database))->generate('foo@bar.cz');
+(new Access\ReserveVerificationCodes(
+	$this->database,
+	new Mail\SendmailMailer(),
+	(new Mail\Message())->setFrom('FROM')->setSubject('SUBJECT'),
+	new Output\XsltTemplate('xsl', new Output\Xml([]))
+))->generate('foo@bar.cz');
 
 // Send an email with the verfication code
 
