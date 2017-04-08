@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 use Klapuch\Access;
 use Klapuch\Output;
 use Nette\Mail;
@@ -45,7 +46,7 @@ $user = $entrance->enter(['foo@bar.cz', 'secret']);
 /************************************************************************/
 /** Forgotten password */
 (new Access\LimitedForgottenPasswords(
-	new Access\SecureForgottenPasswords($database, $cipher),
+	new Access\SecureForgottenPasswords($database),
 	$database
 ))->remind('foo@bar.cz');
 
@@ -56,14 +57,10 @@ $user = $entrance->enter(['foo@bar.cz', 'secret']);
 	new Access\RemindedPassword(
 		$reminder,
 		$this->database,
-		new Access\ThrowawayVerificationCode(
-			$reminder,
+		new Access\UserPassword(
+			new Access\ForgetfulUser('foo@bar.cz', $this->database),
 			$this->database,
-			new Access\UserPassword(
-				new Access\ForgetfulUser('foo@bar.cz', $this->database),
-				$this->database,
-				$cipher
-			)
+			$cipher
 		)
 	)
 ))->change('new password');
