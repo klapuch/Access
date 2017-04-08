@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 use Klapuch\Storage;
@@ -22,8 +23,8 @@ final class ExistingVerificationCode implements VerificationCode {
 		$this->database = $database;
 	}
 
-	public function use(): void {
-		if(!$this->exists($this->code)) {
+	public function use (): void {
+		if (!$this->exists($this->code)) {
 			throw new \Exception(
 				'The verification code does not exist'
 			);

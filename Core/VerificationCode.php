@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 interface VerificationCode {
@@ -8,5 +9,5 @@ interface VerificationCode {
 	 * @throws \Exception
 	 * @return void
 	 */
-	public function use(): void;
+	public function use (): void;
 }

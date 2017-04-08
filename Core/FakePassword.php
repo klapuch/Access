@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 /**
@@ -7,5 +8,5 @@ namespace Klapuch\Access;
  */
 final class FakePassword implements Password {
 	public function change(string $password): void {
-    }
+	}
 }

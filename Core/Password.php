@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 interface Password {
@@ -9,5 +10,5 @@ interface Password {
 	 * @throws \UnexpectedValueException
 	 * @return void
 	 */
-    public function change(string $password): void;
+	public function change(string $password): void;
 }

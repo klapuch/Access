@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 use Klapuch\Storage;
@@ -16,12 +17,6 @@ final class RegisteredUser implements User {
 		$this->database = $database;
 	}
 
-	public function id(): int {
-		if ($this->registered($this->id))
-			return $this->id;
-		throw new \InvalidArgumentException('The user has not been registered yet');
-	}
-
 	public function properties(): array {
 		$user = (new Storage\ParameterizedQuery(
 			$this->database,
@@ -31,6 +26,14 @@ final class RegisteredUser implements User {
 			[$this->id()]
 		))->row();
 		return (new ConstantUser($user['id'], $user))->properties();
+	}
+
+	public function id(): int {
+		if ($this->registered($this->id))
+			return $this->id;
+		throw new \InvalidArgumentException(
+			'The user has not been registered yet'
+		);
 	}
 
 	private function registered(int $id): bool {

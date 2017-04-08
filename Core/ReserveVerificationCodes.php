@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 use Klapuch\Storage;
@@ -9,27 +10,29 @@ use Klapuch\Storage;
  * With the "lost" is meant that the code was not received or occurred other issue
  */
 final class ReserveVerificationCodes implements VerificationCodes {
-    private $database;
+	private $database;
 
-    public function __construct(\PDO $database) {
-        $this->database = $database;
-    }
+	public function __construct(\PDO $database) {
+		$this->database = $database;
+	}
 
 	public function generate(string $email): string {
 		$code = (new Storage\ParameterizedQuery(
 			$this->database,
-            'SELECT code
-            FROM verification_codes
-            WHERE user_id = (
-                SELECT id
-                FROM users
-                WHERE email IS NOT DISTINCT FROM ?
-            )
-            AND used = FALSE',
-            [$email]
+			'SELECT code
+			FROM verification_codes
+			WHERE user_id = (
+				SELECT id
+				FROM users
+				WHERE email IS NOT DISTINCT FROM ?
+			)
+			AND used = FALSE',
+			[$email]
 		))->field();
-        if($code)
-            return $code;
-        throw new \Exception('For the given email, there is no valid verification code');
-    }
+		if ($code)
+			return $code;
+		throw new \Exception(
+			'For the given email, there is no valid verification code'
+		);
+	}
 }

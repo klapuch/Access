@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 use Klapuch\{
@@ -18,7 +19,11 @@ final class UniqueUsers implements Users {
 		$this->cipher = $cipher;
 	}
 
-	public function register(string $email, string $password, string $role): User {
+	public function register(
+		string $email,
+		string $password,
+		string $role
+	): User {
 		try {
 			$row = (new Storage\ParameterizedQuery(
 				$this->database,
@@ -27,7 +32,7 @@ final class UniqueUsers implements Users {
 				[$email, $this->cipher->encryption($password), $role]
 			))->row();
 			return new ConstantUser($row['id'], $row);
-		} catch(Storage\UniqueConstraint $ex) {
+		} catch (Storage\UniqueConstraint $ex) {
 			throw new \InvalidArgumentException(
 				sprintf('Email "%s" already exists', $email),
 				$ex->getCode(),

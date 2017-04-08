@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 use Klapuch\Storage;
@@ -20,7 +21,7 @@ final class LimitedForgottenPasswords implements ForgottenPasswords {
 	}
 
 	public function remind(string $email): void {
-		if($this->overstepped($email)) {
+		if ($this->overstepped($email)) {
 			throw new \OverflowException(
 				sprintf(
 					'You have reached limit %d forgotten passwords in last %d hours',

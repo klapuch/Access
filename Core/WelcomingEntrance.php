@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 use Klapuch\Storage;
@@ -8,13 +9,13 @@ use Klapuch\Storage;
  * Welcoming entrance accepting verification code
  */
 final class WelcomingEntrance implements Entrance {
-    private $database;
+	private $database;
 
-    public function __construct(\PDO $database) {
-        $this->database = $database;
-    }
+	public function __construct(\PDO $database) {
+		$this->database = $database;
+	}
 
-    public function enter(array $credentials): User {
+	public function enter(array $credentials): User {
 		[$code] = $credentials;
 		$row = (new Storage\ParameterizedQuery(
 			$this->database,
@@ -26,5 +27,5 @@ final class WelcomingEntrance implements Entrance {
 			[$code]
 		))->row();
 		return new ConstantUser($row['id'] ?? 0, $row);
-    }
+	}
 }

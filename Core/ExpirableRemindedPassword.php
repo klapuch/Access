@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 use Klapuch\Storage;
@@ -24,7 +25,7 @@ final class ExpirableRemindedPassword implements Password {
 	}
 
 	public function change(string $password): void {
-		if($this->expired($this->reminder))
+		if ($this->expired($this->reminder))
 			throw new \UnexpectedValueException('The reminder expired');
 		$this->origin->change($password);
 	}

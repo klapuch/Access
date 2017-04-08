@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 /**
@@ -7,16 +8,16 @@ namespace Klapuch\Access;
  */
 final class ConstantUser implements User {
 	private const SENSITIVE_COLUMNS = ['id', 'password'];
-    private $id;
-    private $properties;
+	private $id;
+	private $properties;
 
-    public function __construct(int $id, array $properties) {
-        $this->id = $id;
-        $this->properties = $properties;
-    }
+	public function __construct(int $id, array $properties) {
+		$this->id = $id;
+		$this->properties = $properties;
+	}
 
-    public function id(): int {
-        return $this->id;
+	public function id(): int {
+		return $this->id;
 	}
 
 	public function properties(): array {

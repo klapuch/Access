@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 /**
@@ -14,13 +15,13 @@ final class CachedUser implements User {
 	}
 
 	public function id(): int {
-		if($this->id === null)
+		if ($this->id === null)
 			$this->id = $this->origin->id();
 		return $this->id;
 	}
 
 	public function properties(): array {
-		if($this->properties === null)
+		if ($this->properties === null)
 			$this->properties = $this->origin->properties();
 		return $this->properties;
 	}

@@ -1,12 +1,13 @@
 <?php
 declare(strict_types = 1);
+
 namespace Klapuch\Access;
 
 interface VerificationCodes {
-    /**
-     * Generate a new unique verification code for the given email
-     * @param string $email
+	/**
+	 * Generate a new unique verification code for the given email
+	 * @param string $email
 	 * @return string
-     */
-    public function generate(string $email): string;
+	 */
+	public function generate(string $email): string;
 }
