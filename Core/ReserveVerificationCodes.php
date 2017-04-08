@@ -15,7 +15,7 @@ final class ReserveVerificationCodes implements VerificationCodes {
         $this->database = $database;
     }
 
-	public function generate(string $email): void {
+	public function generate(string $email): string {
 		$code = (new Storage\ParameterizedQuery(
 			$this->database,
             'SELECT code
@@ -28,10 +28,8 @@ final class ReserveVerificationCodes implements VerificationCodes {
             AND used = FALSE',
             [$email]
 		))->field();
-        if(!$code) {
-            throw new \Exception(
-                'For the given email, there is no valid verification code'
-            );
-        }
+        if($code)
+            return $code;
+        throw new \Exception('For the given email, there is no valid verification code');
     }
 }

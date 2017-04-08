@@ -13,15 +13,17 @@ require __DIR__ . '/../bootstrap.php';
 
 final class ReserveVerificationCodes extends TestCase\Database {
 	public function testRegenerating() {
+		$code = '123456';
 		$this->database->exec(
 			"INSERT INTO verification_codes (user_id, code, used)
-			VALUES (1, '123456', FALSE)"
+			VALUES (1, $code, FALSE)"
 		);
-		Assert::noError(function() {
+		Assert::same(
+			$code,
 			(new Access\ReserveVerificationCodes(
 				$this->database
-			))->generate('foo@bar.cz');
-		});
+			))->generate('foo@bar.cz')
+		);
 	}
 
 	/**
