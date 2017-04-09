@@ -50,7 +50,8 @@ final class RemindedPassword implements Password {
 			$this->database,
 			'SELECT 1
 			FROM forgotten_passwords
-			WHERE reminder IS NOT DISTINCT FROM ?',
+			WHERE reminder IS NOT DISTINCT FROM ?
+			AND used = FALSE',
 			[$reminder]
 		))->field();
 	}

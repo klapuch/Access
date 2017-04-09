@@ -53,6 +53,22 @@ final class RemindedPassword extends TestCase\Database {
 	/**
 	 * @throws \UnexpectedValueException The reminder does not exist
 	 */
+	public function testThrowingOnChangingWithUsedReminder() {
+		$statement = $this->database->prepare(
+			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
+			(1, TRUE, '123456', NOW())"
+		);
+		$statement->execute();
+		(new Access\RemindedPassword(
+			'123456',
+			$this->database,
+			new Access\FakePassword()
+		))->change('new password');
+	}
+
+	/**
+	 * @throws \UnexpectedValueException The reminder does not exist
+	 */
     public function testThrowingOnUsingCaseInsensitiveReminder() {
 		$statement = $this->database->prepare(
 			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
