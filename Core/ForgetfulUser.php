@@ -9,11 +9,11 @@ use Klapuch\Storage;
  * Forgetful user is the one who forget password
  */
 final class ForgetfulUser implements User {
-	private $email;
+	private $reminder;
 	private $database;
 
-	public function __construct(string $email, \PDO $database) {
-		$this->email = $email;
+	public function __construct(string $reminder, \PDO $database) {
+		$this->reminder = $reminder;
 		$this->database = $database;
 	}
 
@@ -32,9 +32,9 @@ final class ForgetfulUser implements User {
 		return (int)(new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT id
-			FROM users
-			WHERE email IS NOT DISTINCT FROM ?',
-			[$this->email]
+			FROM forgotten_passwords
+			WHERE reminder IS NOT DISTINCT FROM ?',
+			[$this->reminder]
 		))->field();
 	}
 }

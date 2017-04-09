@@ -65,7 +65,7 @@ $user = $entrance->enter(['foo@bar.cz', 'secret']);
 		$reminder,
 		$this->database,
 		new Access\UserPassword(
-			new Access\ForgetfulUser('foo@bar.cz', $this->database),
+			new Access\ForgetfulUser($reminder, $this->database),
 			$this->database,
 			$cipher
 		)
