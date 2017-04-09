@@ -6,7 +6,7 @@ use Klapuch\Storage;
 use Tester;
 
 abstract class Database extends Mockery {
-	/** @var Storage\Database */
+	/** @var \PDO */
 	protected $database;
 
 	protected function setUp() {

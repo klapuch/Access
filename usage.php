@@ -51,6 +51,13 @@ $user = $entrance->enter(['foo@bar.cz', 'secret']);
 ))->remind('foo@bar.cz');
 
 // Send an email with the reminder
+(new Access\EmailedForgottenPasswords(
+	$this->database,
+	new Mail\SendmailMailer(),
+	(new Mail\Message())->setFrom('FROM')->setSubject('SUBJECT'),
+	new Output\XsltTemplate('xsl', new Output\Xml([]))
+))->remind('foo@bar.cz');
+
 (new Access\ExpirableRemindedPassword(
 	$reminder,
 	$this->database,
