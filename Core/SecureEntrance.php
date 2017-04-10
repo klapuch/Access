@@ -32,11 +32,7 @@ final class SecureEntrance implements Entrance {
 			throw new \Exception(
 				sprintf('Email "%s" does not exist', $plainEmail)
 			);
-		} elseif (!$this->cipher->decrypted(
-			$plainPassword,
-			$user['password']
-		)
-		) {
+		} elseif (!$this->cipher->decrypted($plainPassword, $user['password'])) {
 			throw new \Exception('Wrong password');
 		}
 		if ($this->cipher->deprecated($user['password']))
