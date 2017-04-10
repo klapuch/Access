@@ -19,10 +19,13 @@ final class VerifiedEntrance implements Entrance {
 
 	public function enter(array $credentials): User {
 		[$email] = $credentials;
-		if (!$this->verified($email)) {
+		if (!$this->verified($email))
 			throw new \Exception('Email has not been verified yet');
-		}
 		return $this->origin->enter($credentials);
+	}
+
+	public function exit(): User {
+		return $this->origin->exit();
 	}
 
 	/**

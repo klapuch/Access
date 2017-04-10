@@ -22,6 +22,16 @@ final class SecureEntrance extends TestCase\Database {
         Assert::same(1, $user->id());
 	}
 
+	public function testExitingAndBecomingToGuest() {
+		Assert::equal(
+			new Access\ConstantUser(0, ['role' => 'guest']),
+			(new Access\SecureEntrance(
+				$this->database,
+				new Encryption\FakeCipher(true)
+			))->exit()
+		);
+	}
+
 	public function testSuccessfulAuthenticatingWithCaseInsensitiveEmail() {
 		Assert::noError(function() {
 			(new Access\SecureEntrance(

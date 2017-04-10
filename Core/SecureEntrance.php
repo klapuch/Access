@@ -40,6 +40,10 @@ final class SecureEntrance implements Entrance {
 		return new ConstantUser($user['id'], $user);
 	}
 
+	public function exit(): User {
+		return new ConstantUser(0, ['role' => 'guest']);
+	}
+
 	/**
 	 * Does the record exist?
 	 * @param array $row

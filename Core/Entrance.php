@@ -11,4 +11,11 @@ interface Entrance {
 	 * @return User
 	 */
 	public function enter(array $credentials): User;
+
+	/**
+	 * Let the user out
+	 * @throws \Exception
+	 * @return User
+	 */
+	public function exit(): User;
 }

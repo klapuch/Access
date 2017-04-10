@@ -28,4 +28,8 @@ final class WelcomingEntrance implements Entrance {
 		))->row();
 		return new ConstantUser($row['id'] ?? 0, $row);
 	}
+
+	public function exit(): User {
+		return new ConstantUser(0, ['role' => 'guest']);
+	}
 }

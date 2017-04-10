@@ -19,6 +19,15 @@ final class WelcomingEntrance extends TestCase\Database {
         Assert::same(1, $user->id());
 	}
 
+	public function testExitingAndBecomingToGuest() {
+		Assert::equal(
+			new Access\ConstantUser(0, ['role' => 'guest']),
+			(new Access\WelcomingEntrance(
+				$this->database
+			))->exit()
+		);
+	}
+
 	public function testNoMatchOnEnteringWithUnusedCode() {
 		$user = (new Access\WelcomingEntrance(
 			$this->database

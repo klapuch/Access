@@ -13,4 +13,8 @@ final class FakeEntrance implements Entrance {
 	public function enter(array $credentials): User {
 		return $this->user;
 	}
+
+	public function exit(): User {
+		return $this->user;
+	}
 }
