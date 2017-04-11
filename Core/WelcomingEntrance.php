@@ -30,6 +30,6 @@ final class WelcomingEntrance implements Entrance {
 	}
 
 	public function exit(): User {
-		return new ConstantUser(0, ['role' => 'guest']);
+		return new Guest();
 	}
 }

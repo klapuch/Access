@@ -41,7 +41,7 @@ final class SecureEntrance implements Entrance {
 	}
 
 	public function exit(): User {
-		return new ConstantUser(0, ['role' => 'guest']);
+		return new Guest();
 	}
 
 	/**

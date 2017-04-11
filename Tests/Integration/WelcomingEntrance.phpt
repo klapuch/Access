@@ -21,7 +21,7 @@ final class WelcomingEntrance extends TestCase\Database {
 
 	public function testExitingAndBecomingToGuest() {
 		Assert::equal(
-			new Access\ConstantUser(0, ['role' => 'guest']),
+			new Access\Guest(),
 			(new Access\WelcomingEntrance(
 				$this->database
 			))->exit()
