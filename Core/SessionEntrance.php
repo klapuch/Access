@@ -18,7 +18,7 @@ final class SessionEntrance implements Entrance {
 
 	public function enter(array $credentials): User {
 		$user = $this->origin->enter($credentials);
-		session_regenerate_id(false);
+		session_regenerate_id(true);
 		$this->session[self::IDENTIFIER] = $user->id();
 		return $user;
 	}
