@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 final class ValidReminderRule extends TestCase\Database {
-	public function testUnknownReminder() {
+	public function testInvalidAsUnknownReminder() {
 		$rule = new Access\ValidReminderRule($this->database);
 		$reminder = 'abc123';
 		Assert::exception(function() use ($rule, $reminder) {
@@ -23,7 +23,7 @@ final class ValidReminderRule extends TestCase\Database {
 		Assert::false($rule->satisfied($reminder));
 	}
 
-	public function testUsedReminder() {
+	public function testInvalidAsUsedReminder() {
 		$rule = new Access\ValidReminderRule($this->database);
 		$reminder = 'abc123';
 		$this->database->exec(
@@ -36,7 +36,7 @@ final class ValidReminderRule extends TestCase\Database {
 		Assert::false($rule->satisfied($reminder));
 	}
 
-	public function testExpiredReminder() {
+	public function testInvalidAsExpiredReminder() {
 		$rule = new Access\ValidReminderRule($this->database);
 		$reminder = 'abc123';
 		$this->database->exec(
