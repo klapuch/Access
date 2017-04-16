@@ -16,7 +16,8 @@
 	"klapuch/storage": "^2.0.0",
 	"klapuch/encryption": "^2.0.0",
     "nette/mail": "^2.4",
-    "klapuch/output": "^2.6"
+    "klapuch/output": "^2.6",
+    "klapuch/validation": "*"
   },
   "require-dev": {
 	"nette/tester": "^1.7",
