@@ -32,6 +32,33 @@ final class SecureForgottenPasswords extends TestCase\Database {
 		);
 	}
 
+	/**
+	 * @throws \UnexpectedValueException The email does not exist
+	 */
+	public function testThrowingOnUnknownEmail() {
+		(new Access\SecureForgottenPasswords(
+			$this->database
+		))->remind('zzz@zzz.cz');
+	}
+
+	public function testPassingWithCaseInsensitiveEmail() {
+		Assert::noError(function() {
+			(new Access\SecureForgottenPasswords(
+				$this->database
+			))->remind('FOO@bar.cz');
+		});
+		$this->purge(['forgotten_passwords', 'users']);
+		$this->database->exec(
+			"INSERT INTO users (email, password, role) VALUES
+			('FOO@bar.cz', '123', 'member')"
+		);
+		Assert::noError(function() {
+			(new Access\SecureForgottenPasswords(
+				$this->database
+			))->remind('foo@bar.cz');
+		});
+	}
+
 	protected function prepareDatabase() {
 		$this->purge(['forgotten_passwords', 'users']);
 		$this->database->exec(
