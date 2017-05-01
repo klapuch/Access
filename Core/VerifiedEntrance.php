@@ -41,7 +41,7 @@ final class VerifiedEntrance implements Entrance {
 			WHERE user_id = (
 				SELECT id
 				FROM users
-				WHERE LOWER(email) IS NOT DISTINCT FROM LOWER(?)
+				WHERE email IS NOT DISTINCT FROM ?
 			) AND used = TRUE',
 			[$email]
 		))->field();

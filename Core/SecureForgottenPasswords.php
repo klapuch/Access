@@ -46,7 +46,7 @@ final class SecureForgottenPasswords implements ForgottenPasswords {
 			$this->database,
 			'SELECT ID
 			FROM users
-			WHERE LOWER(email) IS NOT DISTINCT FROM LOWER(?)',
+			WHERE email IS NOT DISTINCT FROM ?',
 			[$email]
 		))->field();
 	}
