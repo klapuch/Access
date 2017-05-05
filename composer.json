@@ -13,6 +13,7 @@
   ],
   "require": {
     "php": ">=7.1",
+    "ext-pdo": "*",
 	"klapuch/storage": "^2.0.0",
 	"klapuch/encryption": "^2.0.0",
     "nette/mail": "^2.4",
