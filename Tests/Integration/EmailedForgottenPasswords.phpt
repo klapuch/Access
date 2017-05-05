@@ -1,7 +1,8 @@
 <?php
+declare(strict_types = 1);
 /**
  * @testCase
- * @phpVersion > 7.0.0
+ * @phpVersion > 7.1
  */
 namespace Klapuch\Access\Integration;
 
@@ -48,7 +49,7 @@ final class EmailedForgottenPasswords extends TestCase\Database {
 		Assert::contains('<REMINDER>123456</REMINDER>', $message);
 	}
 
-	protected function prepareDatabase() {
+	protected function prepareDatabase(): void {
 		$this->purge(['users', 'forgotten_passwords']);
 		$this->database->exec(
 			"INSERT INTO users (id, email, password, role) VALUES

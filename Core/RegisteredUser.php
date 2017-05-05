@@ -37,7 +37,7 @@ final class RegisteredUser implements User {
 	}
 
 	private function registered(int $id): bool {
-		return (bool)(new Storage\ParameterizedQuery(
+		return (bool) (new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT 1
 			FROM users

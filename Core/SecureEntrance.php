@@ -3,9 +3,8 @@ declare(strict_types = 1);
 
 namespace Klapuch\Access;
 
-use Klapuch\{
-	Encryption, Storage
-};
+use Klapuch\Encryption;
+use Klapuch\Storage;
 
 /**
  * Secure entrance for entering users to the system
@@ -50,7 +49,7 @@ final class SecureEntrance implements Entrance {
 	 * @return bool
 	 */
 	private function exists(array $row): bool {
-		return (bool)$row;
+		return (bool) $row;
 	}
 
 	/**

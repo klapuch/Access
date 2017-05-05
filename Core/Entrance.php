@@ -8,14 +8,14 @@ interface Entrance {
 	 * Let the user in
 	 * @param array $credentials
 	 * @throws \Exception
-	 * @return User
+	 * @return \Klapuch\Access\User
 	 */
 	public function enter(array $credentials): User;
 
 	/**
 	 * Let the user out
 	 * @throws \Exception
-	 * @return User
+	 * @return \Klapuch\Access\User
 	 */
 	public function exit(): User;
 }

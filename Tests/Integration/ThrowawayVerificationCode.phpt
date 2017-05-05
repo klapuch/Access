@@ -1,7 +1,8 @@
 <?php
+declare(strict_types = 1);
 /**
  * @testCase
- * @phpVersion > 7.0.0
+ * @phpVersion > 7.1
  */
 namespace Klapuch\Access\Integration;
 
@@ -46,14 +47,14 @@ final class ThrowawayVerificationCode extends TestCase\Database {
 			"INSERT INTO users (email, password, role) VALUES
 			('foo@gmail.com', 'password', 'member'),
 			('ber@gmail.com', 'password', 'member')"
-        );
+		);
 		$this->database->exec(
 			"INSERT INTO verification_codes (user_id, code, used)
 			VALUES (1, 'valid:code', FALSE)"
 		);
 	}
 
-	protected function prepareDatabase() {
+	protected function prepareDatabase(): void {
 		$this->purge(['verification_codes', 'users']);
 	}
 }

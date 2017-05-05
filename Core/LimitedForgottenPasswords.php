@@ -39,7 +39,7 @@ final class LimitedForgottenPasswords implements ForgottenPasswords {
 	 * @return bool
 	 */
 	private function overstepped(string $email): bool {
-		return (bool)(new Storage\ParameterizedQuery(
+		return (bool) (new Storage\ParameterizedQuery(
 			$this->database,
 			"SELECT 1
 			FROM forgotten_passwords

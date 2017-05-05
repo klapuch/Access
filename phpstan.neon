@@ -1,4 +1,0 @@
-parameters:
-	universalObjectCratesClasses:
-		- LibXMLError
-		- DOMNode

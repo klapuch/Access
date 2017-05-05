@@ -1,20 +1,19 @@
 <?php
+declare(strict_types = 1);
 /**
  * @testCase
- * @phpVersion > 7.0.0
+ * @phpVersion > 7.1
  */
 namespace Klapuch\Access\Integration;
 
-use Klapuch\{
-    Access, Encryption
-};
+use Klapuch\Access;
 use Klapuch\Access\TestCase;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
 final class ExpirableRemindedPassword extends TestCase\Database {
-    const REMINDER = '123456';
+	private const REMINDER = '123456';
 
 	/**
 	 * @throws \UnexpectedValueException The reminder expired
@@ -25,7 +24,7 @@ final class ExpirableRemindedPassword extends TestCase\Database {
 			(1, FALSE, ?, '2000-01-01')"
 		);
 		$statement->execute([self::REMINDER]);
-        (new Access\ExpirableRemindedPassword(
+		(new Access\ExpirableRemindedPassword(
 			self::REMINDER,
 			$this->database,
 			new Access\FakePassword()
@@ -49,7 +48,7 @@ final class ExpirableRemindedPassword extends TestCase\Database {
 		});
 	}
 
-	protected function prepareDatabase() {
+	protected function prepareDatabase(): void {
 		$this->purge(['forgotten_passwords']);
 	}
 }

@@ -1,13 +1,14 @@
 <?php
+declare(strict_types = 1);
 /**
  * @testCase
- * @phpVersion > 7.0.0
+ * @phpVersion > 7.1
  */
 namespace Klapuch\Access\Integration;
 
 use Klapuch\Access;
-use Tester\Assert;
 use Klapuch\Access\TestCase;
+use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
@@ -48,20 +49,20 @@ final class ExistingVerificationCode extends TestCase\Database {
 		))->use();
 	}
 
-    protected function prepareDatabase() {
-        $this->purge(['verification_codes', 'users']);
-        $this->database->exec(
-            "INSERT INTO users (email, password, role) VALUES
+	protected function prepareDatabase(): void {
+		$this->purge(['verification_codes', 'users']);
+		$this->database->exec(
+			"INSERT INTO users (email, password, role) VALUES
             ('foo@bar.cz', 'secret', 'member')"
-        );
-    }
+		);
+	}
 
-    private function prepareCode() {
-        $this->database->exec(
-            "INSERT INTO verification_codes (user_id, code, used) VALUES
+	private function prepareCode() {
+		$this->database->exec(
+			"INSERT INTO verification_codes (user_id, code, used) VALUES
             (1, 'valid:code', FALSE)"
-        );
-    }
+		);
+	}
 }
 
 (new ExistingVerificationCode())->run();

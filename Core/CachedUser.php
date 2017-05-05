@@ -8,7 +8,8 @@ namespace Klapuch\Access;
  */
 final class CachedUser implements User {
 	private $origin;
-	private $id, $properties;
+	private $id;
+	private $properties;
 
 	public function __construct(User $origin) {
 		$this->origin = $origin;

@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace Klapuch\Access;
 
-use Klapuch\Validation;
 use Klapuch\Storage;
+use Klapuch\Validation;
 
 final class ValidReminderRule implements Validation\Rule {
 	private const EXPIRATION = 'PT30M';
@@ -15,7 +15,7 @@ final class ValidReminderRule implements Validation\Rule {
 	}
 
 	public function satisfied($subject): bool {
-		return (bool)(new Storage\ParameterizedQuery(
+		return (bool) (new Storage\ParameterizedQuery(
 			$this->database,
 			"SELECT 1
 			FROM forgotten_passwords

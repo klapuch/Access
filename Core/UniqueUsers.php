@@ -3,9 +3,8 @@ declare(strict_types = 1);
 
 namespace Klapuch\Access;
 
-use Klapuch\{
-	Encryption, Storage
-};
+use Klapuch\Encryption;
+use Klapuch\Storage;
 
 /**
  * Collection of unique users

@@ -17,7 +17,7 @@ final class ThrowawayVerificationCode implements VerificationCode {
 		$this->database = $database;
 	}
 
-	public function use (): void {
+	public function use(): void {
 		if ($this->used())
 			throw new \Exception('Verification code was already used');
 		(new Storage\ParameterizedQuery(
@@ -34,7 +34,7 @@ final class ThrowawayVerificationCode implements VerificationCode {
 	 * @return bool
 	 */
 	private function used(): bool {
-		return (bool)(new Storage\ParameterizedQuery(
+		return (bool) (new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT 1
             FROM verification_codes

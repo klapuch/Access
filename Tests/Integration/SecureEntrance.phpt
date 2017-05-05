@@ -1,25 +1,25 @@
 <?php
+declare(strict_types = 1);
 /**
  * @testCase
  * @phpVersion > 7.0
  */
 namespace Klapuch\Access\Integration;
 
-use Klapuch\{
-    Access, Encryption
-};
+use Klapuch\Access;
 use Klapuch\Access\TestCase;
+use Klapuch\Encryption;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
 final class SecureEntrance extends TestCase\Database {
-    public function testSuccessfulAuthenticatingWithExactlySameCredentials() {
+	public function testSuccessfulAuthenticatingWithExactlySameCredentials() {
 		$user = (new Access\SecureEntrance(
-            $this->database,
-            new Encryption\FakeCipher(true)
+			$this->database,
+			new Encryption\FakeCipher(true)
 		))->enter(['foo@bar.cz', 'heslo']);
-        Assert::same(1, $user->id());
+		Assert::same(1, $user->id());
 	}
 
 	public function testExitingAndBecomingToGuest() {
@@ -46,14 +46,14 @@ final class SecureEntrance extends TestCase\Database {
 			'SELECT password FROM users WHERE id = 1'
 		);
 		$statement->execute();
-        Assert::same('heslo', $statement->fetchColumn());
+		Assert::same('heslo', $statement->fetchColumn());
 		$user = (new Access\SecureEntrance(
-            $this->database,
-            new Encryption\FakeCipher(true, false)
+			$this->database,
+			new Encryption\FakeCipher(true, false)
 		))->enter(['foo@bar.cz', 'heslo']);
 		Assert::same(1, $user->id());
 		$statement->execute();
-        Assert::same('heslo', $statement->fetchColumn());
+		Assert::same('heslo', $statement->fetchColumn());
 	}
 
 	/**
@@ -61,8 +61,8 @@ final class SecureEntrance extends TestCase\Database {
 	 */
 	public function testThrowinOnAuthenticatingWithUnknownEmail() {
 		(new Access\SecureEntrance(
-            $this->database,
-            new Encryption\FakeCipher()
+			$this->database,
+			new Encryption\FakeCipher()
 		))->enter(['unknown@bar.cz', 'heslo']);
 	}
 
@@ -71,8 +71,8 @@ final class SecureEntrance extends TestCase\Database {
 	 */
 	public function testThrowinOnAuthenticatingWithWrongPassword() {
 		(new Access\SecureEntrance(
-            $this->database,
-            new Encryption\FakeCipher(false)
+			$this->database,
+			new Encryption\FakeCipher(false)
 		))->enter(['foo@bar.cz', '2heslo2']);
 	}
 
@@ -81,17 +81,17 @@ final class SecureEntrance extends TestCase\Database {
 			'SELECT password FROM users WHERE id = 1'
 		);
 		$statement->execute();
-        Assert::same('heslo', $statement->fetchColumn());
+		Assert::same('heslo', $statement->fetchColumn());
 		$user = (new Access\SecureEntrance(
-            $this->database,
-            new Encryption\FakeCipher(true, true)
+			$this->database,
+			new Encryption\FakeCipher(true, true)
 		))->enter(['foo@bar.cz', 'heslo']);
 		Assert::same(1, $user->id());
 		$statement->execute();
-        Assert::same('secret', $statement->fetchColumn());
+		Assert::same('secret', $statement->fetchColumn());
 	}
 
-	protected function prepareDatabase() {
+	protected function prepareDatabase(): void {
 		$this->purge(['users']);
 		$this->database->exec(
 			"INSERT INTO users (email, password, role) VALUES

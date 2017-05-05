@@ -1,13 +1,14 @@
 <?php
+declare(strict_types = 1);
 /**
  * @testCase
- * @phpVersion > 7.0.0
+ * @phpVersion > 7.1
  */
 namespace Klapuch\Access\Unit;
 
 use Klapuch\Access;
-use Tester\Assert;
 use Klapuch\Access\TestCase;
+use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 

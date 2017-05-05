@@ -1,14 +1,13 @@
 <?php
+declare(strict_types = 1);
 /**
  * @testCase
- * @phpVersion > 7.0.0
+ * @phpVersion > 7.1
  */
 namespace Klapuch\Access\Integration;
 
 use Klapuch\Access;
 use Klapuch\Access\TestCase;
-use Klapuch\Output;
-use Nette\Mail;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -62,7 +61,7 @@ final class ValidReminderRule extends TestCase\Database {
 		Assert::true($rule->satisfied($reminder));
 	}
 
-	protected function prepareDatabase() {
+	protected function prepareDatabase(): void {
 		$this->purge(['forgotten_passwords']);
 	}
 }

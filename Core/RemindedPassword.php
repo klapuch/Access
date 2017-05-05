@@ -46,7 +46,7 @@ final class RemindedPassword implements Password {
 	 * @return bool
 	 */
 	private function exists(string $reminder): bool {
-		return (bool)(new Storage\ParameterizedQuery(
+		return (bool) (new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT 1
 			FROM forgotten_passwords

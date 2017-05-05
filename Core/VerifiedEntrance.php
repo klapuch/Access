@@ -34,7 +34,7 @@ final class VerifiedEntrance implements Entrance {
 	 * @return bool
 	 */
 	private function verified(string $email): bool {
-		return (bool)(new Storage\ParameterizedQuery(
+		return (bool) (new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT 1
             FROM verification_codes  

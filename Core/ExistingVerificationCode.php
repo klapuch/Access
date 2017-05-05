@@ -23,7 +23,7 @@ final class ExistingVerificationCode implements VerificationCode {
 		$this->database = $database;
 	}
 
-	public function use (): void {
+	public function use(): void {
 		if (!$this->exists($this->code)) {
 			throw new \Exception(
 				'The verification code does not exist'
@@ -38,7 +38,7 @@ final class ExistingVerificationCode implements VerificationCode {
 	 * @return bool
 	 */
 	private function exists(string $code): bool {
-		return (bool)(new Storage\ParameterizedQuery(
+		return (bool) (new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT 1
 			FROM verification_codes

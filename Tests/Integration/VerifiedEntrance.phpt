@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 /**
  * @testCase
  * @phpVersion > 7.0
@@ -15,9 +16,9 @@ final class VerifiedEntrance extends TestCase\Database {
 	/**
 	 * @throws \Exception Email has not been verified yet
 	 */
-    public function testThrowingOnNotVerifiedEmail() {
+	public function testThrowingOnNotVerifiedEmail() {
 		(new Access\VerifiedEntrance(
-            $this->database,
+			$this->database,
 			new Access\FakeEntrance(new Access\FakeUser())
 		))->enter(['unverified@bar.cz', 'heslo']);
 	}
@@ -33,7 +34,7 @@ final class VerifiedEntrance extends TestCase\Database {
 		);
 	}
 
-	protected function prepareDatabase() {
+	protected function prepareDatabase(): void {
 		$this->purge(['users', 'verification_codes']);
 		$this->database->exec(
 			"INSERT INTO users (email, password, role) VALUES

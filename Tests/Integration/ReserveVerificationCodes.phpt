@@ -1,7 +1,8 @@
 <?php
+declare(strict_types = 1);
 /**
  * @testCase
- * @phpVersion > 7.0.0
+ * @phpVersion > 7.1
  */
 namespace Klapuch\Access\Integration;
 
@@ -51,8 +52,8 @@ final class ReserveVerificationCodes extends TestCase\Database {
 			"INSERT INTO verification_codes (user_id, code, used, used_at)
 			VALUES (1, '123456', TRUE, NOW())"
 		);
-        (new Access\ReserveVerificationCodes(
-        	$this->database,
+		(new Access\ReserveVerificationCodes(
+			$this->database,
 			new class implements Mail\IMailer {
 				function send(Mail\Message $mail) {
 				}
@@ -65,7 +66,7 @@ final class ReserveVerificationCodes extends TestCase\Database {
 		))->generate('foo@bar.cz');
 	}
 
-	protected function prepareDatabase() {
+	protected function prepareDatabase(): void {
 		$this->purge(['verification_codes', 'users']);
 		$this->database->exec(
 			"INSERT INTO users (email, password, role) VALUES

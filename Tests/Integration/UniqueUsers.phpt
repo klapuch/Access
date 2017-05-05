@@ -1,15 +1,15 @@
 <?php
+declare(strict_types = 1);
 /**
  * @testCase
- * @phpVersion > 7.0.0
+ * @phpVersion > 7.1
  */
 namespace Klapuch\Access\Integration;
 
-use Klapuch\{
-	Access, Encryption
-};
-use Tester\Assert;
+use Klapuch\Access;
 use Klapuch\Access\TestCase;
+use Klapuch\Encryption;
+use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
@@ -70,11 +70,11 @@ final class UniqueUsers extends TestCase\Database {
 				new Encryption\FakeCipher()
 			))->register($email, 'password', 'member');
 		};
-		Assert::noError(function() use($register, $email) {
+		Assert::noError(function() use ($register, $email) {
 			$register($email);
 		});
 		$ex = Assert::exception(
-			function() use($register, $email) {
+			function() use ($register, $email) {
 				$register(strtoupper($email));
 			},
 			\InvalidArgumentException::class,
@@ -83,7 +83,7 @@ final class UniqueUsers extends TestCase\Database {
 		Assert::type(\Throwable::class, $ex->getPrevious());
 	}
 
-	protected function prepareDatabase() {
+	protected function prepareDatabase(): void {
 		$this->purge(['users']);
 	}
 }

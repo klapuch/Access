@@ -29,7 +29,7 @@ final class ForgetfulUser implements User {
 	}
 
 	public function id(): int {
-		return (int)(new Storage\ParameterizedQuery(
+		return (int) (new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT id
 			FROM forgotten_passwords

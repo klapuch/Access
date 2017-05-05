@@ -35,7 +35,7 @@ final class ThrowawayRemindedPassword implements Password {
 	 * @return bool
 	 */
 	private function used(string $reminder): bool {
-		return (bool)(new Storage\ParameterizedQuery(
+		return (bool) (new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT 1
 			FROM forgotten_passwords

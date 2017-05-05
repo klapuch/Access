@@ -33,7 +33,7 @@ final class SecureForgottenPasswords implements ForgottenPasswords {
 	 * @return bool
 	 */
 	private function exists(string $email): bool {
-		return (bool)$this->id($email);
+		return (bool) $this->id($email);
 	}
 
 	/**
@@ -42,7 +42,7 @@ final class SecureForgottenPasswords implements ForgottenPasswords {
 	 * @return int
 	 */
 	private function id(string $email): int {
-		return (int)(new Storage\ParameterizedQuery(
+		return (int) (new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT ID
 			FROM users

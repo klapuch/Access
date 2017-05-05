@@ -1,7 +1,8 @@
 <?php
+declare(strict_types = 1);
 /**
  * @testCase
- * @phpVersion > 7.0.0
+ * @phpVersion > 7.1
  */
 namespace Klapuch\Access\Integration;
 
@@ -50,7 +51,7 @@ final class LimitedForgottenPasswords extends TestCase\Database {
 		);
 	}
 
-	protected function prepareDatabase() {
+	protected function prepareDatabase(): void {
 		$this->purge(['users', 'forgotten_passwords']);
 		$this->database->exec(
 			"INSERT INTO users (id, email, password, role) VALUES

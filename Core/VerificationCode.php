@@ -9,5 +9,5 @@ interface VerificationCode {
 	 * @throws \Exception
 	 * @return void
 	 */
-	public function use (): void;
+	public function use(): void;
 }

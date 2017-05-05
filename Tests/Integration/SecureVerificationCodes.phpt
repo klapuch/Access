@@ -1,7 +1,8 @@
 <?php
+declare(strict_types = 1);
 /**
  * @testCase
- * @phpVersion > 7.0.0
+ * @phpVersion > 7.1
  */
 namespace Klapuch\Access\Integration;
 
@@ -24,7 +25,7 @@ final class SecureVerificationCodes extends TestCase\Database {
 		Assert::same(91, $statement->fetchColumn());
 	}
 
-	protected function prepareDatabase() {
+	protected function prepareDatabase(): void {
 		$this->purge(['verification_codes', 'users']);
 		$this->database->exec(
 			"INSERT INTO users (email, password, role) VALUES

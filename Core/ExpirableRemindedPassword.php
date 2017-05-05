@@ -36,7 +36,7 @@ final class ExpirableRemindedPassword implements Password {
 	 * @return bool
 	 */
 	private function expired(string $reminder): bool {
-		return (bool)(new Storage\ParameterizedQuery(
+		return (bool) (new Storage\ParameterizedQuery(
 			$this->database,
 			"SELECT 1
 			FROM forgotten_passwords
