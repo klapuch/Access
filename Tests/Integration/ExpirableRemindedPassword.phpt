@@ -8,6 +8,7 @@ namespace Klapuch\Access\Integration;
 
 use Klapuch\Access;
 use Klapuch\Access\TestCase;
+use Klapuch\Output;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -46,6 +47,17 @@ final class ExpirableRemindedPassword extends TestCase\Database {
 				new Access\FakePassword()
 			))->change('123456789');
 		});
+	}
+
+	public function testPrintingWithExpirationTime() {
+		Assert::same(
+			'|abc||def||reminder|123reminder123||expiration|30 minutes|',
+			(new Access\ExpirableRemindedPassword(
+				'123reminder123',
+				$this->database,
+				new Access\FakePassword(new Output\FakeFormat('|abc||def|'))
+			))->print(new Output\FakeFormat(''))->serialization()
+		);
 	}
 
 	protected function prepareDatabase(): void {

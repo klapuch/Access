@@ -44,7 +44,7 @@ final class LimitedForgottenPasswords extends TestCase\Database {
 		Assert::noError(
 			function() {
 				(new Access\LimitedForgottenPasswords(
-					new Access\FakeForgottenPasswords,
+					new Access\FakeForgottenPasswords(new Access\FakePassword()),
 					$this->database
 				))->remind('foo@gmail.com');
 			}

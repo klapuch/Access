@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Klapuch\Access;
 
+use Klapuch\Output;
 use Klapuch\Storage;
 
 /**
@@ -44,5 +45,17 @@ final class ExpirableRemindedPassword implements Password {
 			AND reminded_at + INTERVAL '1 MINUTE' * ? < NOW()",
 			[$reminder, (new \DateInterval(self::EXPIRATION))->i]
 		))->field();
+	}
+
+	public function print(Output\Format $format): Output\Format {
+		return $this->origin->print($format)
+			->with('reminder', $this->reminder)
+			->with(
+				'expiration',
+				sprintf(
+					'%d minutes',
+					(new \DateInterval(self::EXPIRATION))->i
+				)
+			);
 	}
 }

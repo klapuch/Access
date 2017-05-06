@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Klapuch\Access;
 
 use Klapuch\Encryption;
+use Klapuch\Output;
 use Klapuch\Storage;
 
 /**
@@ -32,5 +33,9 @@ final class UserPassword implements Password {
             WHERE id = ?',
 			[$this->cipher->encryption($password), $this->user->id()]
 		))->execute();
+	}
+
+	public function print(Output\Format $format): Output\Format {
+		return $format;
 	}
 }

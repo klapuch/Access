@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Klapuch\Access;
 
+use Klapuch\Output;
 use Klapuch\Storage;
 
 /**
@@ -43,5 +44,9 @@ final class ThrowawayRemindedPassword implements Password {
 			AND used = TRUE',
 			[$reminder]
 		))->field();
+	}
+
+	public function print(Output\Format $format): Output\Format {
+		return $this->origin->print($format);
 	}
 }

@@ -15,16 +15,21 @@ final class SecureForgottenPasswords implements ForgottenPasswords {
 		$this->database = $database;
 	}
 
-	public function remind(string $email): void {
+	public function remind(string $email): Password {
 		if (!$this->exists($email))
 			throw new \UnexpectedValueException('The email does not exist');
-		$reminder = bin2hex(random_bytes(50)) . ':' . sha1($email);
-		(new Storage\ParameterizedQuery(
+		$reminder = (new Storage\ParameterizedQuery(
 			$this->database,
 			'INSERT INTO forgotten_passwords (user_id, reminder, reminded_at, used) VALUES
-			(?, ?, NOW(), FALSE)',
-			[$this->id($email), $reminder]
-		))->execute();
+			(?, ?, NOW(), FALSE)
+			RETURNING reminder',
+			[$this->id($email), bin2hex(random_bytes(50)) . ':' . sha1($email)]
+		))->field();
+		return new ExpirableRemindedPassword(
+			$reminder,
+			$this->database,
+			new FakePassword()
+		);
 	}
 
 	/**

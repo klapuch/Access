@@ -8,7 +8,7 @@ interface ForgottenPasswords {
 	 * Remind forgotten password to the user by the given email
 	 * @param string $email
 	 * @throws \OverflowException
-	 * @return void
+	 * @return \Klapuch\Access\Password
 	 */
-	public function remind(string $email): void;
+	public function remind(string $email): Password;
 }

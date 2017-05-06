@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Klapuch\Access;
 
+use Klapuch\Output;
 use Klapuch\Storage;
 
 /**
@@ -54,5 +55,9 @@ final class RemindedPassword implements Password {
 			AND used = FALSE',
 			[$reminder]
 		))->field();
+	}
+
+	public function print(Output\Format $format): Output\Format {
+		return $format->with('reminder', $this->reminder);
 	}
 }

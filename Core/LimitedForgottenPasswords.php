@@ -20,7 +20,7 @@ final class LimitedForgottenPasswords implements ForgottenPasswords {
 		$this->database = $database;
 	}
 
-	public function remind(string $email): void {
+	public function remind(string $email): Password {
 		if ($this->overstepped($email)) {
 			throw new \OverflowException(
 				sprintf(
@@ -30,7 +30,7 @@ final class LimitedForgottenPasswords implements ForgottenPasswords {
 				)
 			);
 		}
-		$this->origin->remind($email);
+		return $this->origin->remind($email);
 	}
 
 	/**
