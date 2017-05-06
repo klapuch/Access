@@ -51,7 +51,7 @@ final class ExpirableRemindedPassword extends TestCase\Database {
 
 	public function testPrintingWithExpirationTime() {
 		Assert::same(
-			'|abc||def||reminder|123reminder123||expiration|30 minutes|',
+			'|reminder|123reminder123||expiration|30 minutes|',
 			(new Access\ExpirableRemindedPassword(
 				'123reminder123',
 				$this->database,

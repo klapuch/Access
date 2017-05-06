@@ -47,8 +47,7 @@ final class ExpirableRemindedPassword implements Password {
 	}
 
 	public function print(Output\Format $format): Output\Format {
-		return $this->origin->print($format)
-			->with('reminder', $this->reminder)
+		return $format->with('reminder', $this->reminder)
 			->with(
 				'expiration',
 				sprintf(
