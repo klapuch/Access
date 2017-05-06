@@ -1,6 +1,5 @@
 <?php
 declare(strict_types = 1);
-
 namespace Klapuch\Access;
 
 use Klapuch\Storage;
@@ -14,6 +13,11 @@ final class ValidReminderRule implements Validation\Rule {
 		$this->database = $database;
 	}
 
+	public function apply($subject): void {
+		if (!$this->satisfied($subject))
+			throw new \UnexpectedValueException('Reminder is no longer valid.');
+	}
+
 	public function satisfied($subject): bool {
 		return (bool) (new Storage\ParameterizedQuery(
 			$this->database,
@@ -24,10 +28,5 @@ final class ValidReminderRule implements Validation\Rule {
 			AND reminded_at + INTERVAL '1 MINUTE' * ? > NOW()",
 			[$subject, (new \DateInterval(self::EXPIRATION))->i]
 		))->field();
-	}
-
-	public function apply($subject): void {
-		if (!$this->satisfied($subject))
-			throw new \UnexpectedValueException('Reminder is no longer valid.');
 	}
 }

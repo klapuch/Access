@@ -1,6 +1,5 @@
 <?php
 declare(strict_types = 1);
-
 namespace Klapuch\Access;
 
 use Klapuch\Storage;
@@ -24,10 +23,6 @@ final class VerifiedEntrance implements Entrance {
 		return $this->origin->enter($credentials);
 	}
 
-	public function exit(): User {
-		return $this->origin->exit();
-	}
-
 	/**
 	 * Is the user verified?
 	 * @param string $email
@@ -45,5 +40,9 @@ final class VerifiedEntrance implements Entrance {
 			) AND used = TRUE',
 			[$email]
 		))->field();
+	}
+
+	public function exit(): User {
+		return $this->origin->exit();
 	}
 }

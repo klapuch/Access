@@ -1,6 +1,5 @@
 <?php
 declare(strict_types = 1);
-
 namespace Klapuch\Access;
 
 use Klapuch\Encryption;
@@ -31,16 +30,16 @@ final class SecureEntrance implements Entrance {
 			throw new \Exception(
 				sprintf('Email "%s" does not exist', $plainEmail)
 			);
-		} elseif (!$this->cipher->decrypted($plainPassword, $user['password'])) {
+		} elseif (!$this->cipher->decrypted(
+			$plainPassword,
+			$user['password']
+		)
+		) {
 			throw new \Exception('Wrong password');
 		}
 		if ($this->cipher->deprecated($user['password']))
 			$this->rehash($plainPassword, $user['id']);
 		return new ConstantUser($user['id'], $user);
-	}
-
-	public function exit(): User {
-		return new Guest();
 	}
 
 	/**
@@ -65,5 +64,9 @@ final class SecureEntrance implements Entrance {
 			WHERE id IS NOT DISTINCT FROM ?',
 			[$this->cipher->encryption($password), $id]
 		))->execute();
+	}
+
+	public function exit(): User {
+		return new Guest();
 	}
 }
