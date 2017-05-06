@@ -8,20 +8,27 @@ namespace Klapuch\Access\Integration;
 
 use Klapuch\Access;
 use Klapuch\Access\TestCase;
+use Klapuch\Output;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
 final class ExistingVerificationCode extends TestCase\Database {
-	/**
-	 * @throws \Exception The verification code does not exist
-	 */
-	public function testThrowingOnUsingUnknownCode() {
-		(new Access\ExistingVerificationCode(
-			new Access\FakeVerificationCode(),
-			'unknown:code',
-			$this->database
-		))->use();
+	public function testThrowingOnUnknownCode() {
+		Assert::exception(function() {
+			(new Access\ExistingVerificationCode(
+				new Access\FakeVerificationCode(),
+				'unknown:code',
+				$this->database
+			))->use();
+		}, \UnexpectedValueException::class, 'The verification code does not exist');
+		Assert::exception(function() {
+			(new Access\ExistingVerificationCode(
+				new Access\FakeVerificationCode(),
+				'unknown:code',
+				$this->database
+			))->print(new Output\FakeFormat(''));
+		}, \UnexpectedValueException::class, 'The verification code does not exist');
 	}
 
 	public function testUsingKnownCode() {
@@ -37,16 +44,34 @@ final class ExistingVerificationCode extends TestCase\Database {
 		);
 	}
 
-	/**
-	 * @throws \Exception The verification code does not exist
-	 */
+	public function testPrintingCodeWithOrigin() {
+		$this->prepareCode();
+		Assert::same(
+			'|abc|def||code|valid:code|',
+			(new Access\ExistingVerificationCode(
+				new Access\FakeVerificationCode(new Output\FakeFormat('|abc|def|')),
+				'valid:code',
+				$this->database
+			))->print(new Output\FakeFormat(''))->serialization()
+		);
+	}
+
 	public function testThrowingOnUsingCaseInsensitiveCode() {
 		$this->prepareCode();
-		(new Access\ExistingVerificationCode(
-			new Access\FakeVerificationCode(),
-			'VALID:code',
-			$this->database
-		))->use();
+		Assert::exception(function() {
+			(new Access\ExistingVerificationCode(
+				new Access\FakeVerificationCode(),
+				'VALID:code',
+				$this->database
+			))->use();
+		}, \UnexpectedValueException::class, 'The verification code does not exist');
+		Assert::exception(function() {
+			(new Access\ExistingVerificationCode(
+				new Access\FakeVerificationCode(),
+				'VALID:code',
+				$this->database
+			))->print(new Output\FakeFormat(''));
+		}, \UnexpectedValueException::class, 'The verification code does not exist');
 	}
 
 	protected function prepareDatabase(): void {

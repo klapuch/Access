@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Klapuch\Access;
 
+use Klapuch\Output;
 use Klapuch\Storage;
 
 /**
@@ -18,7 +19,7 @@ final class ThrowawayVerificationCode implements VerificationCode {
 
 	public function use(): void {
 		if ($this->used())
-			throw new \Exception('Verification code was already used');
+			throw new \UnexpectedValueException('Verification code was already used');
 		(new Storage\ParameterizedQuery(
 			$this->database,
 			'UPDATE verification_codes
@@ -41,5 +42,11 @@ final class ThrowawayVerificationCode implements VerificationCode {
 			AND used = TRUE',
 			[$this->code]
 		))->field();
+	}
+
+	public function print(Output\Format $format): Output\Format {
+		if ($this->used())
+			throw new \UnexpectedValueException('Verification code was already used');
+		return $format->with('code', $this->code);
 	}
 }

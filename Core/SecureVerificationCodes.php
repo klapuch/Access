@@ -14,13 +14,14 @@ final class SecureVerificationCodes implements VerificationCodes {
 		$this->database = $database;
 	}
 
-	public function generate(string $email): void {
-		$code = bin2hex(random_bytes(25)) . ':' . sha1($email);
-		(new Storage\ParameterizedQuery(
+	public function generate(string $email): VerificationCode {
+		$code = (new Storage\ParameterizedQuery(
 			$this->database,
 			'INSERT INTO verification_codes (user_id, code, used)
-			VALUES ((SELECT id FROM users WHERE email IS NOT DISTINCT FROM ?), ?, FALSE)',
-			[$email, $code]
-		))->execute();
+			VALUES ((SELECT id FROM users WHERE email IS NOT DISTINCT FROM ?), ?, FALSE)
+			RETURNING code',
+			[$email, bin2hex(random_bytes(25)) . ':' . sha1($email)]
+		))->field();
+		return new ThrowawayVerificationCode($code, $this->database);
 	}
 }

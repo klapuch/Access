@@ -8,6 +8,7 @@ namespace Klapuch\Access\Integration;
 
 use Klapuch\Access;
 use Klapuch\Access\TestCase;
+use Klapuch\Output;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -28,18 +29,34 @@ final class ThrowawayVerificationCode extends TestCase\Database {
 		Assert::true($statement->fetchColumn());
 	}
 
-	/**
-	 * @throws \Exception Verification code was already used
-	 */
-	public function testThrowinOnUsingAlreadyActivatedCode() {
+	public function testThrowingOnUsingAlreadyActivatedCode() {
 		$this->database->exec(
 			"INSERT INTO verification_codes (user_id, code, used, used_at) VALUES
 			(2, 'activated:code', TRUE, NOW())"
 		);
-		(new Access\ThrowawayVerificationCode(
-			'activated:code',
-			$this->database
-		))->use();
+		Assert::exception(function() {
+			(new Access\ThrowawayVerificationCode(
+				'activated:code',
+				$this->database
+			))->use();
+		}, \UnexpectedValueException::class, 'Verification code was already used');
+		Assert::exception(function() {
+			(new Access\ThrowawayVerificationCode(
+				'activated:code',
+				$this->database
+			))->print(new Output\FakeFormat(''));
+		}, \UnexpectedValueException::class, 'Verification code was already used');
+	}
+
+	public function testPrintingCode() {
+		$this->prepareValidCode();
+		Assert::same(
+			'|code|valid:code|',
+			(new Access\ThrowawayVerificationCode(
+				'valid:code',
+				$this->database
+			))->print(new Output\FakeFormat(''))->serialization()
+		);
 	}
 
 	private function prepareValidCode() {

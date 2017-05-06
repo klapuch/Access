@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Klapuch\Access;
 
+use Klapuch\Output;
 use Klapuch\Storage;
 
 /**
@@ -23,11 +24,8 @@ final class ExistingVerificationCode implements VerificationCode {
 	}
 
 	public function use(): void {
-		if (!$this->exists($this->code)) {
-			throw new \Exception(
-				'The verification code does not exist'
-			);
-		}
+		if (!$this->exists($this->code))
+			throw new \UnexpectedValueException('The verification code does not exist');
 		$this->origin->use();
 	}
 
@@ -44,5 +42,11 @@ final class ExistingVerificationCode implements VerificationCode {
 			WHERE code IS NOT DISTINCT FROM ?',
 			[$code]
 		))->field();
+	}
+
+	public function print(Output\Format $format): Output\Format {
+		if (!$this->exists($this->code))
+			throw new \UnexpectedValueException('The verification code does not exist');
+		return $this->origin->print($format)->with('code', $this->code);
 	}
 }

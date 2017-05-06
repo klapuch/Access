@@ -2,9 +2,7 @@
 declare(strict_types = 1);
 namespace Klapuch\Access;
 
-use Klapuch\Output;
 use Klapuch\Storage;
-use Nette\Mail;
 
 /**
  * Reserve verification codes which can be given on demand in case the old one has been lost
@@ -12,23 +10,12 @@ use Nette\Mail;
  */
 final class ReserveVerificationCodes implements VerificationCodes {
 	private $database;
-	private $mailer;
-	private $message;
-	private $template;
 
-	public function __construct(
-		\PDO $database,
-		Mail\IMailer $mailer,
-		Mail\Message $message,
-		Output\Template $template
-	) {
+	public function __construct(\PDO $database) {
 		$this->database = $database;
-		$this->mailer = $mailer;
-		$this->message = $message;
-		$this->template = $template;
 	}
 
-	public function generate(string $email): void {
+	public function generate(string $email): VerificationCode {
 		$code = (new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT code
@@ -41,15 +28,8 @@ final class ReserveVerificationCodes implements VerificationCodes {
 			AND used = FALSE',
 			[$email]
 		))->field();
-		if (!$code) {
-			throw new \Exception(
-				'For the given email, there is no valid verification code'
-			);
-		}
-		$this->mailer->send(
-			$this->message
-				->addTo($email)
-				->setHtmlBody($this->template->render(['code' => $code]))
-		);
+		if ($code)
+			return new ThrowawayVerificationCode($code, $this->database);
+		throw new \Exception('For the given email, there is no valid verification code');
 	}
 }

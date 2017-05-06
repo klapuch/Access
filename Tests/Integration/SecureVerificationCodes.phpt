@@ -14,15 +14,21 @@ require __DIR__ . '/../bootstrap.php';
 
 final class SecureVerificationCodes extends TestCase\Database {
 	public function testGenerating() {
-		(new Access\SecureVerificationCodes($this->database))
-			->generate('fooBarEmail');
 		$statement = $this->database->prepare(
-			'SELECT LENGTH(code)
+			'SELECT code
 			FROM verification_codes
 			WHERE user_id = 1'
 		);
+		$verification = (new Access\SecureVerificationCodes(
+			$this->database
+		))->generate('fooBarEmail');
 		$statement->execute();
-		Assert::same(91, $statement->fetchColumn());
+		$code = $statement->fetchColumn();
+		Assert::same(91, strlen($code));
+		Assert::equal(
+			new Access\ThrowawayVerificationCode($code, $this->database),
+			$verification
+		);
 	}
 
 	protected function prepareDatabase(): void {

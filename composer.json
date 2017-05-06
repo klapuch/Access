@@ -16,7 +16,6 @@
     "ext-pdo": "*",
 	"klapuch/storage": "^2.0.0",
 	"klapuch/encryption": "^2.0.0",
-    "nette/mail": "^2.4",
     "klapuch/output": "^2.6",
     "klapuch/validation": "*"
   },
