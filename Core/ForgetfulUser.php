@@ -30,7 +30,7 @@ final class ForgetfulUser implements User {
 	public function id(): int {
 		return (int) (new Storage\ParameterizedQuery(
 			$this->database,
-			'SELECT id
+			'SELECT user_id
 			FROM forgotten_passwords
 			WHERE reminder IS NOT DISTINCT FROM ?',
 			[$this->reminder]

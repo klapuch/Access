@@ -19,8 +19,8 @@ final class ForgetfulUser extends TestCase\Database {
             ('foo@bar.cz', 'secret', 'member')"
 		);
 		$this->database->exec(
-			"INSERT INTO forgotten_passwords (user_id, reminded_at, reminder, used) VALUES 
-			(1, NOW(), 'valid:reminder', FALSE)"
+			"INSERT INTO forgotten_passwords (id, user_id, reminded_at, reminder, used) VALUES 
+			(2, 1, NOW(), 'valid:reminder', FALSE)"
 		);
 		$user = new Access\ForgetfulUser('valid:reminder', $this->database);
 		Assert::same(1, $user->id());
