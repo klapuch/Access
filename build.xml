@@ -74,14 +74,16 @@
 			<arg value="console"/>
 			<arg value="-s"/>
 			<arg value="-p"/>
-			<arg value="phpdbg"/>
+			<arg value="php-cgi"/>
 			<arg value="-c"/>
 			<arg path="Tests/php.ini"/>
+			<arg value="-d"/>
+			<arg value="extension=xdebug.so"/>
 			<arg path="Tests/"/>
 			<arg value="--coverage"/>
 			<arg value="coverage.xml"/>
 			<arg value="--coverage-src"/>
-			<arg path="Core/"/>
+			<arg path="Core"/>
 		</exec>
 	</target>
 
