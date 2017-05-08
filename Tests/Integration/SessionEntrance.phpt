@@ -7,6 +7,7 @@ declare(strict_types = 1);
 namespace Klapuch\Access\Integration;
 
 use Klapuch\Access;
+use Klapuch\Internal;
 use Tester;
 use Tester\Assert;
 
@@ -26,7 +27,8 @@ final class SessionEntrance extends Tester\TestCase {
 			new Access\FakeUser(1),
 			(new Access\SessionEntrance(
 				new Access\FakeEntrance(new Access\FakeUser(1)),
-				$this->sessions
+				$this->sessions,
+				new Internal\IniSetExtension([])
 			))->enter([])
 		);
 	}
@@ -36,7 +38,8 @@ final class SessionEntrance extends Tester\TestCase {
 			new Access\FakeUser(1),
 			(new Access\SessionEntrance(
 				new Access\FakeEntrance(new Access\FakeUser(1)),
-				$this->sessions
+				$this->sessions,
+				new Internal\IniSetExtension([])
 			))->exit()
 		);
 	}
@@ -44,7 +47,8 @@ final class SessionEntrance extends Tester\TestCase {
 	public function testSettingSession() {
 		(new Access\SessionEntrance(
 			new Access\FakeEntrance(new Access\FakeUser(1)),
-			$this->sessions
+			$this->sessions,
+			new Internal\IniSetExtension([])
 		))->enter([]);
 		Assert::same(1, $this->sessions['id']);
 	}
@@ -54,7 +58,8 @@ final class SessionEntrance extends Tester\TestCase {
 		$this->sessions['id'] = 1;
 		(new Access\SessionEntrance(
 			new Access\FakeEntrance(new Access\FakeUser(1)),
-			$this->sessions
+			$this->sessions,
+			new Internal\IniSetExtension([])
 		))->exit();
 		Assert::same('bar', $this->sessions['foo']);
 		Assert::false(isset($this->sessions['id']));
@@ -64,9 +69,19 @@ final class SessionEntrance extends Tester\TestCase {
 		$sessionId = session_id();
 		(new Access\SessionEntrance(
 			new Access\FakeEntrance(new Access\FakeUser(1)),
-			$this->sessions
+			$this->sessions,
+			new Internal\IniSetExtension([])
 		))->enter([]);
 		Assert::notSame(session_id(), $sessionId);
+	}
+
+	public function testKeepingSpecialSessionAfterRegeneration() {
+		(new Access\SessionEntrance(
+			new Access\FakeEntrance(new Access\FakeUser(1)),
+			$this->sessions,
+			new Internal\CookieExtension(['SameSite' => 'strict'])
+		))->enter([]);
+		Assert::contains('SameSite=strict', headers_list()[4]);
 	}
 }
 

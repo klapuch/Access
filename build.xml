@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="Library" default="check">
 
-	<target name="check" depends="lint, phpcpd, phpstan, phpcs, tests, cgi-tests"/>
+	<target name="check" depends="lint, phpcpd, phpstan, phpcs, tests"/>
 	<target name="ci" depends="check, coverage"/>
 
 	<target name="lint">
@@ -56,19 +56,6 @@
 	</target>
 
 	<target name="tests">
-		<exec executable="vendor/bin/tester" logoutput="true" passthru="true" checkreturn="true">
-			<arg value="-o"/>
-			<arg value="console"/>
-			<arg value="-s"/>
-			<arg value="-p"/>
-			<arg value="php"/>
-			<arg value="-c"/>
-			<arg path="Tests/php.ini"/>
-			<arg path="Tests/"/>
-		</exec>
-	</target>
-
-	<target name="cgi-tests">
 		<exec executable="vendor/bin/tester" logoutput="true" passthru="true" checkreturn="true">
 			<arg value="-o"/>
 			<arg value="console"/>
