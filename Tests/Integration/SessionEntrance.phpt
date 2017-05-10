@@ -19,10 +19,10 @@ final class SessionEntrance extends Tester\TestCase {
 	protected function setUp() {
 		parent::setUp();
 		Tester\Environment::lock('fs', __DIR__ . '/../Temporary');
-		session_start();
 	}
 
 	public function testRetrievedUserOnEntering() {
+		session_start();
 		Assert::equal(
 			new Access\FakeUser(1),
 			(new Access\SessionEntrance(
@@ -45,6 +45,7 @@ final class SessionEntrance extends Tester\TestCase {
 	}
 
 	public function testSettingSession() {
+		session_start();
 		(new Access\SessionEntrance(
 			new Access\FakeEntrance(new Access\FakeUser(1)),
 			$this->sessions,
@@ -66,6 +67,7 @@ final class SessionEntrance extends Tester\TestCase {
 	}
 
 	public function testRegeneratingSessionOnEnter() {
+		session_start();
 		$sessionId = session_id();
 		(new Access\SessionEntrance(
 			new Access\FakeEntrance(new Access\FakeUser(1)),
@@ -75,7 +77,18 @@ final class SessionEntrance extends Tester\TestCase {
 		Assert::notSame(session_id(), $sessionId);
 	}
 
+	public function testRegenerationForActiveSession() {
+		Assert::noError(function() {
+			(new Access\SessionEntrance(
+				new Access\FakeEntrance(new Access\FakeUser(1)),
+				$this->sessions,
+				new Internal\IniSetExtension([])
+			))->enter([]);
+		});
+	}
+
 	public function testKeepingSpecialSessionAfterRegeneration() {
+		session_start();
 		(new Access\SessionEntrance(
 			new Access\FakeEntrance(new Access\FakeUser(1)),
 			$this->sessions,
