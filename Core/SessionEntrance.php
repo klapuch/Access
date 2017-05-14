@@ -33,6 +33,8 @@ final class SessionEntrance implements Entrance {
 	}
 
 	public function exit(): User {
+		if (!isset($this->session[self::IDENTIFIER]))
+			throw new \LogicException('You are not logged in');
 		unset($this->session[self::IDENTIFIER]);
 		return $this->origin->exit();
 	}
