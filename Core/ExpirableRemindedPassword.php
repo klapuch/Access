@@ -53,7 +53,7 @@ final class ExpirableRemindedPassword implements Password {
 	private function expiration(string $reminder): string {
 		return (new Storage\ParameterizedQuery(
 			$this->database,
-			"SELECT EXTRACT(MINUTE FROM expire_at-NOW()) || ' minutes'
+			"SELECT EXTRACT(MINUTE FROM expire_at - NOW()) || ' minutes'
 			FROM forgotten_passwords
 			WHERE reminder IS NOT DISTINCT FROM ?",
 			[$reminder]
