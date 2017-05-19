@@ -18,8 +18,8 @@ final class RemindedPassword extends TestCase\Database {
 
 	public function testChangingWithValidReminder() {
 		$statement = $this->database->prepare(
-			'INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
-            (1, FALSE, ?, NOW())'
+			'INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at, expire_at) VALUES
+            (1, FALSE, ?, NOW(), NOW())'
 		);
 		$statement->execute([self::VALID_REMINDER]);
 		$newPassword = '123456789';
@@ -55,8 +55,8 @@ final class RemindedPassword extends TestCase\Database {
 	 */
 	public function testThrowingOnChangingWithUsedReminder() {
 		$statement = $this->database->prepare(
-			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
-			(1, TRUE, '123456', NOW())"
+			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at, expire_at) VALUES
+			(1, TRUE, '123456', NOW(), NOW())"
 		);
 		$statement->execute();
 		(new Access\RemindedPassword(
@@ -71,8 +71,8 @@ final class RemindedPassword extends TestCase\Database {
 	 */
 	public function testThrowingOnUsingCaseInsensitiveReminder() {
 		$statement = $this->database->prepare(
-			'INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
-			(1, FALSE, ?, NOW())'
+			'INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at, expire_at) VALUES
+			(1, FALSE, ?, NOW(), NOW())'
 		);
 		$statement->execute([self::VALID_REMINDER]);
 		(new Access\RemindedPassword(

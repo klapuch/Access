@@ -21,8 +21,8 @@ final class ExpirableRemindedPassword extends TestCase\Database {
 	 */
 	public function testThrowinOnOldReminder() {
 		$statement = $this->database->prepare(
-			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
-			(1, FALSE, ?, '2000-01-01')"
+			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at, expire_at) VALUES
+			(1, FALSE, ?, '2000-01-01', NOW() - INTERVAL '2 HOUR')"
 		);
 		$statement->execute([self::REMINDER]);
 		(new Access\ExpirableRemindedPassword(
@@ -34,10 +34,9 @@ final class ExpirableRemindedPassword extends TestCase\Database {
 
 	public function testChangingPasswordWithFreshReminder() {
 		$statement = $this->database->prepare(
-			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at) VALUES
-			(1, FALSE, :reminder, NOW() - INTERVAL '10 MINUTE'),
-			(1, TRUE, :reminder, NOW() - INTERVAL '10 MINUTE'),
-			(1, FALSE, :reminder, NOW() - INTERVAL '20 MINUTE')"
+			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at, expire_at) VALUES
+			(1, TRUE, :reminder, NOW(), NOW() + INTERVAL '2 HOUR'),
+			(1, FALSE, :reminder, NOW(), NOW() + INTERVAL '2 HOUR')"
 		);
 		$statement->execute([':reminder' => self::REMINDER]);
 		Assert::noError(function() {
@@ -50,10 +49,15 @@ final class ExpirableRemindedPassword extends TestCase\Database {
 	}
 
 	public function testPrintingWithExpirationTime() {
+		$statement = $this->database->prepare(
+			"INSERT INTO forgotten_passwords (user_id, used, reminder, reminded_at, expire_at) VALUES
+			(1, FALSE, '123456', NOW(), NOW() + INTERVAL '31 MINUTES')"
+		);
+		$statement->execute();
 		Assert::same(
-			'|reminder|123reminder123||expiration|30 minutes|',
+			'|reminder|123456||expiration|30 minutes|',
 			(new Access\ExpirableRemindedPassword(
-				'123reminder123',
+				self::REMINDER,
 				$this->database,
 				new Access\FakePassword(new Output\FakeFormat('|abc||def|'))
 			))->print(new Output\FakeFormat(''))->serialization()
