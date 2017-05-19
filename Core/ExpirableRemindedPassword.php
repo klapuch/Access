@@ -9,7 +9,6 @@ use Klapuch\Storage;
  * Reminded password with expiration
  */
 final class ExpirableRemindedPassword implements Password {
-	private const EXPIRATION = 'PT30M';
 	private $reminder;
 	private $database;
 	private $origin;
@@ -38,22 +37,26 @@ final class ExpirableRemindedPassword implements Password {
 	private function expired(string $reminder): bool {
 		return (bool) (new Storage\ParameterizedQuery(
 			$this->database,
-			"SELECT 1
-			FROM forgotten_passwords
-			WHERE reminder IS NOT DISTINCT FROM ?
-			AND reminded_at + INTERVAL '1 MINUTE' * ? < NOW()",
-			[$reminder, (new \DateInterval(self::EXPIRATION))->i]
+			'SELECT 1
+            FROM forgotten_passwords
+            WHERE reminder IS NOT DISTINCT FROM ?
+            AND expire_at < NOW()',
+			[$reminder]
 		))->field();
 	}
 
 	public function print(Output\Format $format): Output\Format {
 		return $format->with('reminder', $this->reminder)
-			->with(
-				'expiration',
-				sprintf(
-					'%d minutes',
-					(new \DateInterval(self::EXPIRATION))->i
-				)
-			);
+			->with('expiration', $this->expiration($this->reminder));
+	}
+
+	private function expiration(string $reminder): string {
+		return (new Storage\ParameterizedQuery(
+			$this->database,
+			"SELECT EXTRACT(MINUTE FROM expire_at-NOW()) || ' minutes'
+			FROM forgotten_passwords
+			WHERE reminder IS NOT DISTINCT FROM ?",
+			[$reminder]
+		))->field();
 	}
 }

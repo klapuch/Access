@@ -13,24 +13,22 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 final class SecureForgottenPasswords extends TestCase\Database {
-	public function testReminding() {
+	public function testRemindingWithFutureExpiration() {
 		(new Access\SecureForgottenPasswords(
 			$this->database
 		))->remind('foo@bar.cz');
 		$statement = $this->database->prepare(
-			'SELECT user_id, LENGTH(reminder) AS reminder_length, used
+			'SELECT user_id, LENGTH(reminder) AS reminder_length, used,
+			expire_at > NOW() AS future_expiration
 			FROM forgotten_passwords
 			WHERE reminded_at <= NOW()'
 		);
 		$statement->execute();
-		Assert::same(
-			[
-				'user_id' => 1,
-				'reminder_length' => 141,
-				'used' => false,
-			],
-			$statement->fetch()
-		);
+		$row = $statement->fetch();
+		Assert::same(1, $row['user_id']);
+		Assert::same(141, $row['reminder_length']);
+		Assert::false($row['used']);
+		Assert::true($row['future_expiration']);
 	}
 
 	/**

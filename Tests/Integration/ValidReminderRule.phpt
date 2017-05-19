@@ -26,8 +26,8 @@ final class ValidReminderRule extends TestCase\Database {
 		$rule = new Access\ValidReminderRule($this->database);
 		$reminder = 'abc123';
 		$this->database->exec(
-			"INSERT INTO forgotten_passwords (user_id, reminded_at, reminder, used) VALUES 
-			(1, NOW(), 'abc123', TRUE)"
+			"INSERT INTO forgotten_passwords (user_id, reminded_at, reminder, used, expire_at) VALUES 
+			(1, NOW(), 'abc123', TRUE, '2030-01-01')"
 		);
 		Assert::exception(function() use ($rule, $reminder) {
 			$rule->apply($reminder);
@@ -39,8 +39,8 @@ final class ValidReminderRule extends TestCase\Database {
 		$rule = new Access\ValidReminderRule($this->database);
 		$reminder = 'abc123';
 		$this->database->exec(
-			"INSERT INTO forgotten_passwords (user_id, reminded_at, reminder, used) VALUES 
-			(1, NOW() - INTERVAL '12 HOUR', 'abc123', FALSE)"
+			"INSERT INTO forgotten_passwords (user_id, reminded_at, reminder, used, expire_at) VALUES 
+			(1, '2000-01-01', 'abc123', FALSE, NOW() + INTERVAL '5 MINUTE')"
 		);
 		Assert::exception(function() use ($rule, $reminder) {
 			$rule->apply($reminder);
@@ -52,8 +52,8 @@ final class ValidReminderRule extends TestCase\Database {
 		$rule = new Access\ValidReminderRule($this->database);
 		$reminder = 'abc123';
 		$this->database->exec(
-			"INSERT INTO forgotten_passwords (user_id, reminded_at, reminder, used) VALUES 
-			(1, NOW() - INTERVAL '1 MINUTE', 'abc123', FALSE)"
+			"INSERT INTO forgotten_passwords (user_id, reminded_at, reminder, used, expire_at) VALUES 
+			(1, '2000-01-01', 'abc123', FALSE, '2005-01-01')"
 		);
 		Assert::noError(function() use ($rule, $reminder) {
 			$rule->apply($reminder);
