@@ -24,7 +24,7 @@ final class ValidReminderRule implements Validation\Rule {
             FROM forgotten_passwords
             WHERE reminder IS NOT DISTINCT FROM ?
             AND used = FALSE
-            AND expire_at < NOW()',
+            AND expire_at > NOW()',
 			[$subject]
 		))->field();
 	}

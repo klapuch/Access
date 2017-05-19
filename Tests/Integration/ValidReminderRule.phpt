@@ -40,7 +40,7 @@ final class ValidReminderRule extends TestCase\Database {
 		$reminder = 'abc123';
 		$this->database->exec(
 			"INSERT INTO forgotten_passwords (user_id, reminded_at, reminder, used, expire_at) VALUES 
-			(1, '2000-01-01', 'abc123', FALSE, NOW() + INTERVAL '5 MINUTE')"
+			(1, '2000-01-01', 'abc123', FALSE, NOW() - INTERVAL '5 MINUTE')"
 		);
 		Assert::exception(function() use ($rule, $reminder) {
 			$rule->apply($reminder);
@@ -53,7 +53,7 @@ final class ValidReminderRule extends TestCase\Database {
 		$reminder = 'abc123';
 		$this->database->exec(
 			"INSERT INTO forgotten_passwords (user_id, reminded_at, reminder, used, expire_at) VALUES 
-			(1, '2000-01-01', 'abc123', FALSE, '2005-01-01')"
+			(1, '2000-01-01', 'abc123', FALSE, NOW() + INTERVAL '20 MINUTE')"
 		);
 		Assert::noError(function() use ($rule, $reminder) {
 			$rule->apply($reminder);
