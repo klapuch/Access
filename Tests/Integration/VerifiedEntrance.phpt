@@ -34,6 +34,24 @@ final class VerifiedEntrance extends TestCase\Database {
 		);
 	}
 
+	public function testPassingWithStringObject() {
+		Assert::noError(function() {
+			(new Access\VerifiedEntrance(
+				$this->database,
+				new Access\FakeEntrance(new Access\FakeUser(1))
+			))->enter(
+				[
+					new class {
+						public function __toString() {
+							return 'VERIFIED@bar.cz';
+						}
+					},
+					'heslo',
+				]
+			);
+		});
+	}
+
 	protected function prepareDatabase(): void {
 		$this->purge(['users', 'verification_codes']);
 		$this->database->exec(

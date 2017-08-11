@@ -43,6 +43,22 @@ final class WelcomingEntrance extends TestCase\Database {
 		Assert::same(0, $user->id());
 	}
 
+	public function testPassingWithStringObject() {
+		Assert::noError(
+			function() {
+				(new Access\WelcomingEntrance(
+					$this->database
+				))->enter(
+					[new class {
+						public function __toString() {
+							return '123';
+						}
+					}]
+				);
+			}
+		);
+	}
+
 	protected function prepareDatabase(): void {
 		$this->purge(['verification_codes', 'users']);
 		$this->database->exec(

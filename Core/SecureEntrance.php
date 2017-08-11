@@ -18,7 +18,7 @@ final class SecureEntrance implements Entrance {
 	}
 
 	public function enter(array $credentials): User {
-		[$plainEmail, $plainPassword] = $credentials;
+		[$plainEmail, $plainPassword] = array_map('strval', $credentials);
 		$user = (new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT *
@@ -26,17 +26,10 @@ final class SecureEntrance implements Entrance {
 			WHERE email IS NOT DISTINCT FROM ?',
 			[$plainEmail]
 		))->row();
-		if (!$this->exists($user)) {
-			throw new \Exception(
-				sprintf('Email "%s" does not exist', $plainEmail)
-			);
-		} elseif (!$this->cipher->decrypted(
-			$plainPassword,
-			$user['password']
-		)
-		) {
+		if (!$this->exists($user))
+			throw new \Exception(sprintf('Email "%s" does not exist', $plainEmail));
+		elseif (!$this->cipher->decrypted($plainPassword, $user['password']))
 			throw new \Exception('Wrong password');
-		}
 		if ($this->cipher->deprecated($user['password']))
 			$this->rehash($plainPassword, $user['id']);
 		return new ConstantUser($user['id'], $user);

@@ -41,6 +41,28 @@ final class SecureEntrance extends TestCase\Database {
 		});
 	}
 
+	public function testPassingWithStringObject() {
+		Assert::noError(function() {
+			(new Access\SecureEntrance(
+				$this->database,
+				new Encryption\FakeCipher(true)
+			))->enter(
+				[
+					new class {
+						public function __toString() {
+							return 'FOO@bar.cz';
+						}
+					},
+					new class {
+						public function __toString() {
+							return 'heslo';
+						}
+					},
+				]
+			);
+		});
+	}
+
 	public function testAuthenticatingWithoutRehashing() {
 		$statement = $this->database->prepare(
 			'SELECT password FROM users WHERE id = 1'

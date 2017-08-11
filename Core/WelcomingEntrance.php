@@ -23,7 +23,7 @@ final class WelcomingEntrance implements Entrance {
 			INNER JOIN users ON users.id = user_id
 			WHERE code IS NOT DISTINCT FROM ?
 			AND used = TRUE',
-			[$code]
+			[(string) $code]
 		))->row();
 		return new ConstantUser($row['id'] ?? 0, $row);
 	}
