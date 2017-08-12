@@ -27,9 +27,9 @@ final class SecureEntrance implements Entrance {
 			[$plainEmail]
 		))->row();
 		if (!$this->exists($user))
-			throw new \Exception(sprintf('Email "%s" does not exist', $plainEmail));
+			throw new \UnexpectedValueException(sprintf('Email "%s" does not exist', $plainEmail));
 		elseif (!$this->cipher->decrypted($plainPassword, $user['password']))
-			throw new \Exception('Wrong password');
+			throw new \UnexpectedValueException('Wrong password');
 		if ($this->cipher->deprecated($user['password']))
 			$this->rehash($plainPassword, $user['id']);
 		return new ConstantUser($user['id'], $user);

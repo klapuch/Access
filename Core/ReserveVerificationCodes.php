@@ -30,6 +30,6 @@ final class ReserveVerificationCodes implements VerificationCodes {
 		))->field();
 		if ($code)
 			return new ThrowawayVerificationCode($code, $this->database);
-		throw new \Exception('For the given email, there is no valid verification code');
+		throw new \UnexpectedValueException('For the given email, there is no valid verification code');
 	}
 }

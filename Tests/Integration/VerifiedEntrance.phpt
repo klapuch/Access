@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 final class VerifiedEntrance extends TestCase\Database {
 	/**
-	 * @throws \Exception Email has not been verified yet
+	 * @throws \UnexpectedValueException Email has not been verified yet
 	 */
 	public function testThrowingOnNotVerifiedEmail() {
 		(new Access\VerifiedEntrance(

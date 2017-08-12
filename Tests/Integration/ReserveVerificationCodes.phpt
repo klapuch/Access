@@ -27,7 +27,7 @@ final class ReserveVerificationCodes extends TestCase\Database {
 	}
 
 	/**
-	 * @throws \Exception For the given email, there is no valid verification code
+	 * @throws \UnexpectedValueException For the given email, there is no valid verification code
 	 */
 	public function testThrowingOnRegeneratingForOnceUsedCode() {
 		$this->database->exec(

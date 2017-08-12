@@ -79,7 +79,7 @@ final class SecureEntrance extends TestCase\Database {
 	}
 
 	/**
-	 * @throws \Exception Email "unknown@bar.cz" does not exist
+	 * @throws \UnexpectedValueException Email "unknown@bar.cz" does not exist
 	 */
 	public function testThrowinOnAuthenticatingWithUnknownEmail() {
 		(new Access\SecureEntrance(
@@ -89,7 +89,7 @@ final class SecureEntrance extends TestCase\Database {
 	}
 
 	/**
-	 * @throws \Exception Wrong password
+	 * @throws \UnexpectedValueException Wrong password
 	 */
 	public function testThrowinOnAuthenticatingWithWrongPassword() {
 		(new Access\SecureEntrance(

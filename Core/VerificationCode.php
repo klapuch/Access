@@ -7,7 +7,7 @@ use Klapuch\Output;
 interface VerificationCode {
 	/**
 	 * Use the verification code
-	 * @throws \Exception
+	 * @throws \UnexpectedValueException
 	 * @return void
 	 */
 	public function use(): void;
