@@ -1,0 +1,26 @@
+version: '3'
+services:
+    postgres:
+      image: postgres:latest
+      container_name: access-postgres
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=access_test
+      volumes:
+        - ./postgres/postgresql.conf:/etc/postgresql.conf
+        - ./..:/var/www/Access
+      command: postgres -c config_file=/etc/postgresql.conf
+      ports:
+        - 5432:5432
+    adminer:
+      image: adminer:standalone
+      container_name: access-adminer
+      ports:
+        - 8080:8080
+    php-fpm:
+      build: ./php-fpm
+      working_dir: /var/www/Access
+      volumes:
+          - ./..:/var/www/Access
+          - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
