@@ -17,7 +17,7 @@ final class WelcomingEntrance extends TestCase\Database {
 		$user = (new Access\WelcomingEntrance(
 			$this->database
 		))->enter(['used:code']);
-		Assert::same(1, $user->id());
+		Assert::same('1', $user->id());
 	}
 
 	public function testExitingAndBecomingToGuest() {
@@ -33,14 +33,14 @@ final class WelcomingEntrance extends TestCase\Database {
 		$user = (new Access\WelcomingEntrance(
 			$this->database
 		))->enter(['unused:code']);
-		Assert::same(0, $user->id());
+		Assert::same('', $user->id());
 	}
 
 	public function testNoMatchOnEnteringWithCaseInsensitiveCode() {
 		$user = (new Access\WelcomingEntrance(
 			$this->database
 		))->enter(['USED:code']);
-		Assert::same(0, $user->id());
+		Assert::same('', $user->id());
 	}
 
 	public function testPassingWithStringObject() {

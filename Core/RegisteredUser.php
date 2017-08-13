@@ -11,7 +11,7 @@ final class RegisteredUser implements User {
 	private $id;
 	private $database;
 
-	public function __construct(int $id, \PDO $database) {
+	public function __construct(string $id, \PDO $database) {
 		$this->id = $id;
 		$this->database = $database;
 	}
@@ -24,10 +24,10 @@ final class RegisteredUser implements User {
 			WHERE id IS NOT DISTINCT FROM ?',
 			[$this->id()]
 		))->row();
-		return (new ConstantUser($user['id'], $user))->properties();
+		return (new ConstantUser((string) $user['id'], $user))->properties();
 	}
 
-	public function id(): int {
+	public function id(): string {
 		if ($this->registered($this->id))
 			return $this->id;
 		throw new \InvalidArgumentException(
@@ -35,7 +35,7 @@ final class RegisteredUser implements User {
 		);
 	}
 
-	private function registered(int $id): bool {
+	private function registered(string $id): bool {
 		return (bool) (new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT 1

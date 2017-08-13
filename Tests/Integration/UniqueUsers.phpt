@@ -19,7 +19,7 @@ final class UniqueUsers extends TestCase\Database {
 			$this->database,
 			new Encryption\FakeCipher()
 		))->register('foo@bar.cz', 'passw0rt', 'member');
-		Assert::same(1, $user->id());
+		Assert::same('1', $user->id());
 		Assert::same(['email' => 'foo@bar.cz', 'role' => 'member'], $user->properties());
 		$statement = $this->database->prepare('SELECT * FROM users');
 		$statement->execute();

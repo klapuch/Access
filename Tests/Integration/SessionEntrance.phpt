@@ -24,9 +24,9 @@ final class SessionEntrance extends Tester\TestCase {
 	public function testRetrievedUserOnEntering() {
 		session_start();
 		Assert::equal(
-			new Access\FakeUser(1),
+			new Access\FakeUser('1'),
 			(new Access\SessionEntrance(
-				new Access\FakeEntrance(new Access\FakeUser(1)),
+				new Access\FakeEntrance(new Access\FakeUser('1')),
 				$this->sessions,
 				new Internal\IniSetExtension([])
 			))->enter([])
@@ -47,22 +47,22 @@ final class SessionEntrance extends Tester\TestCase {
 	public function testSettingSession() {
 		session_start();
 		(new Access\SessionEntrance(
-			new Access\FakeEntrance(new Access\FakeUser(1)),
+			new Access\FakeEntrance(new Access\FakeUser('1')),
 			$this->sessions,
 			new Internal\IniSetExtension([])
 		))->enter([]);
-		Assert::same(1, $this->sessions['id']);
+		Assert::same('1', $this->sessions['id']);
 	}
 
 	public function testUnSettingIdentifiedSessionOnly() {
 		$this->sessions['foo'] = 'bar';
 		$this->sessions['id'] = 1;
 		$user = (new Access\SessionEntrance(
-			new Access\FakeEntrance(new Access\FakeUser(1)),
+			new Access\FakeEntrance(new Access\FakeUser('1')),
 			$this->sessions,
 			new Internal\IniSetExtension([])
 		))->exit();
-		Assert::equal(new Access\FakeUser(1), $user);
+		Assert::equal(new Access\FakeUser('1'), $user);
 		Assert::same('bar', $this->sessions['foo']);
 		Assert::false(isset($this->sessions['id']));
 	}
@@ -71,7 +71,7 @@ final class SessionEntrance extends Tester\TestCase {
 		session_start();
 		$sessionId = session_id();
 		(new Access\SessionEntrance(
-			new Access\FakeEntrance(new Access\FakeUser(1)),
+			new Access\FakeEntrance(new Access\FakeUser('1')),
 			$this->sessions,
 			new Internal\IniSetExtension([])
 		))->enter([]);
@@ -81,7 +81,7 @@ final class SessionEntrance extends Tester\TestCase {
 	public function testRegenerationForActiveSession() {
 		Assert::noError(function() {
 			(new Access\SessionEntrance(
-				new Access\FakeEntrance(new Access\FakeUser(1)),
+				new Access\FakeEntrance(new Access\FakeUser('1')),
 				$this->sessions,
 				new Internal\IniSetExtension([])
 			))->enter([]);
@@ -91,7 +91,7 @@ final class SessionEntrance extends Tester\TestCase {
 	public function testKeepingSpecialSessionAfterRegeneration() {
 		session_start();
 		(new Access\SessionEntrance(
-			new Access\FakeEntrance(new Access\FakeUser(1)),
+			new Access\FakeEntrance(new Access\FakeUser('1')),
 			$this->sessions,
 			new Internal\CookieExtension(['SameSite' => 'strict'])
 		))->enter([]);

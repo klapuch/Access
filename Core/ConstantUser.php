@@ -10,12 +10,12 @@ final class ConstantUser implements User {
 	private $id;
 	private $properties;
 
-	public function __construct(int $id, array $properties) {
+	public function __construct(string $id, array $properties) {
 		$this->id = $id;
 		$this->properties = $properties;
 	}
 
-	public function id(): int {
+	public function id(): string {
 		return $this->id;
 	}
 

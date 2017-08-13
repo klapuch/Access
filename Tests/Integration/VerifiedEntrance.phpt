@@ -24,7 +24,7 @@ final class VerifiedEntrance extends TestCase\Database {
 	}
 
 	public function testCaseInsensitiveVerifiedEmail() {
-		$user = new Access\FakeUser(1);
+		$user = new Access\FakeUser('1');
 		Assert::same(
 			$user,
 			(new Access\VerifiedEntrance(
@@ -38,7 +38,7 @@ final class VerifiedEntrance extends TestCase\Database {
 		Assert::noError(function() {
 			(new Access\VerifiedEntrance(
 				$this->database,
-				new Access\FakeEntrance(new Access\FakeUser(1))
+				new Access\FakeEntrance(new Access\FakeUser('1'))
 			))->enter(
 				[
 					new class {

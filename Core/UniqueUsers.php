@@ -29,7 +29,7 @@ final class UniqueUsers implements Users {
 				(?, ?, ?) RETURNING *',
 				[$email, $this->cipher->encryption($password), $role]
 			))->row();
-			return new ConstantUser($row['id'], $row);
+			return new ConstantUser((string) $row['id'], $row);
 		} catch (Storage\UniqueConstraint $ex) {
 			throw new \InvalidArgumentException(
 				sprintf('Email "%s" already exists', $email),

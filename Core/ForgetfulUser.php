@@ -22,13 +22,13 @@ final class ForgetfulUser implements User {
 			'SELECT *
 			FROM users
 			WHERE id IS NOT DISTINCT FROM ?',
-			[$this->id()]
+			[(int) $this->id()]
 		))->row();
-		return (new ConstantUser($user['id'] ?? 0, $user))->properties();
+		return (new ConstantUser(strval($user['id'] ?? ''), $user))->properties();
 	}
 
-	public function id(): int {
-		return (int) (new Storage\ParameterizedQuery(
+	public function id(): string {
+		return (string) (new Storage\ParameterizedQuery(
 			$this->database,
 			'SELECT user_id
 			FROM forgotten_passwords

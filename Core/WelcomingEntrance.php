@@ -25,7 +25,7 @@ final class WelcomingEntrance implements Entrance {
 			AND used = TRUE',
 			[(string) $code]
 		))->row();
-		return new ConstantUser($row['id'] ?? 0, $row);
+		return new ConstantUser(strval($row['id'] ?? ''), $row);
 	}
 
 	public function exit(): User {
