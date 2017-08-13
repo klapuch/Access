@@ -32,7 +32,7 @@ final class ForgetfulUser extends TestCase\Database {
 
 	public function testNoUserOnInvalidReminder() {
 		$user = new Access\ForgetfulUser('invalid:reminder', $this->database);
-		Assert::same('', $user->id());
+		Assert::same('0', $user->id());
 		Assert::same([], $user->properties());
 	}
 

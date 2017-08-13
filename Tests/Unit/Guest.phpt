@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 final class Guest extends TestCase\Mockery {
 	public function testStaticId() {
-		Assert::same('', (new Access\Guest())->id());
+		Assert::same('0', (new Access\Guest())->id());
 	}
 
 	public function testStaticProperties() {

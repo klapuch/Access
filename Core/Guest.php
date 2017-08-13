@@ -4,7 +4,7 @@ namespace Klapuch\Access;
 
 final class Guest implements User {
 	public function id(): string {
-		return '';
+		return '0';
 	}
 
 	public function properties(): array {

@@ -24,7 +24,7 @@ final class ForgetfulUser implements User {
 			WHERE id IS NOT DISTINCT FROM ?',
 			[(int) $this->id()]
 		))->row();
-		return (new ConstantUser(strval($user['id'] ?? ''), $user))->properties();
+		return (new ConstantUser(strval($user['id'] ?? '0'), $user))->properties();
 	}
 
 	public function id(): string {
