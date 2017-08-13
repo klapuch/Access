@@ -32,7 +32,7 @@ final class SecureEntrance implements Entrance {
 			throw new \UnexpectedValueException('Wrong password');
 		if ($this->cipher->deprecated($user['password']))
 			$this->rehash($plainPassword, $user['id']);
-		return new ConstantUser($user['id'], $user);
+		return new ConstantUser((string) $user['id'], $user);
 	}
 
 	/**

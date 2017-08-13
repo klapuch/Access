@@ -51,7 +51,7 @@ final class SessionEntrance extends Tester\TestCase {
 			$this->sessions,
 			new Internal\IniSetExtension([])
 		))->enter([]);
-		Assert::same(1, $this->sessions['id']);
+		Assert::same('1', $this->sessions['id']);
 	}
 
 	public function testUnSettingIdentifiedSessionOnly() {

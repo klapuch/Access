@@ -24,7 +24,7 @@ final class RegisteredUser implements User {
 			WHERE id IS NOT DISTINCT FROM ?',
 			[$this->id()]
 		))->row();
-		return (new ConstantUser($user['id'], $user))->properties();
+		return (new ConstantUser((string) $user['id'], $user))->properties();
 	}
 
 	public function id(): string {

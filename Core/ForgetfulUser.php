@@ -22,9 +22,9 @@ final class ForgetfulUser implements User {
 			'SELECT *
 			FROM users
 			WHERE id IS NOT DISTINCT FROM ?',
-			[$this->id()]
+			[(int) $this->id()]
 		))->row();
-		return (new ConstantUser($user['id'] ?? '', $user))->properties();
+		return (new ConstantUser(strval($user['id'] ?? ''), $user))->properties();
 	}
 
 	public function id(): string {
