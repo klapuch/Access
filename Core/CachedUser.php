@@ -14,7 +14,7 @@ final class CachedUser implements User {
 		$this->origin = $origin;
 	}
 
-	public function id(): int {
+	public function id(): string {
 		if ($this->id === null)
 			$this->id = $this->origin->id();
 		return $this->id;

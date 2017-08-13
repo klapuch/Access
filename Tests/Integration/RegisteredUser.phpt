@@ -18,8 +18,8 @@ final class RegisteredUser extends TestCase\Database {
 			"INSERT INTO users (email, password, role) VALUES
             ('foo@bar.cz', 'secret', 'member')"
 		);
-		$user = new Access\RegisteredUser(1, $this->database);
-		Assert::same(1, $user->id());
+		$user = new Access\RegisteredUser('1', $this->database);
+		Assert::same('1', $user->id());
 		Assert::same(
 			['email' => 'foo@bar.cz', 'role' => 'member'],
 			$user->properties()
@@ -27,7 +27,7 @@ final class RegisteredUser extends TestCase\Database {
 	}
 
 	public function testThrowingOnNotRegistedUser() {
-		$user = new Access\RegisteredUser(1, $this->database);
+		$user = new Access\RegisteredUser('1', $this->database);
 		Assert::exception(function() use ($user) {
 			$user->id();
 		}, \InvalidArgumentException::class, 'The user has not been registered yet');

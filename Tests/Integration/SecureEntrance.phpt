@@ -19,7 +19,7 @@ final class SecureEntrance extends TestCase\Database {
 			$this->database,
 			new Encryption\FakeCipher(true)
 		))->enter(['foo@bar.cz', 'heslo']);
-		Assert::same(1, $user->id());
+		Assert::same('1', $user->id());
 	}
 
 	public function testExitingAndBecomingToGuest() {
@@ -73,7 +73,7 @@ final class SecureEntrance extends TestCase\Database {
 			$this->database,
 			new Encryption\FakeCipher(true, false)
 		))->enter(['foo@bar.cz', 'heslo']);
-		Assert::same(1, $user->id());
+		Assert::same('1', $user->id());
 		$statement->execute();
 		Assert::same('heslo', $statement->fetchColumn());
 	}
@@ -108,7 +108,7 @@ final class SecureEntrance extends TestCase\Database {
 			$this->database,
 			new Encryption\FakeCipher(true, true)
 		))->enter(['foo@bar.cz', 'heslo']);
-		Assert::same(1, $user->id());
+		Assert::same('1', $user->id());
 		$statement->execute();
 		Assert::same('secret', $statement->fetchColumn());
 	}

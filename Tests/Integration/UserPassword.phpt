@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 final class UserPassword extends TestCase\Database {
 	public function testChangingWithHashing() {
 		(new Access\UserPassword(
-			new Access\FakeUser(1),
+			new Access\FakeUser('1'),
 			$this->database,
 			new Encryption\FakeCipher()
 		))->change('willBeEncrypted');
@@ -30,7 +30,7 @@ final class UserPassword extends TestCase\Database {
 
 	public function testChangingWithoutAffectingOthers() {
 		(new Access\UserPassword(
-			new Access\FakeUser(1),
+			new Access\FakeUser('1'),
 			$this->database,
 			new Encryption\FakeCipher()
 		))->change('willBeEncrypted');

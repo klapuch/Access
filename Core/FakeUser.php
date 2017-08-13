@@ -6,12 +6,12 @@ final class FakeUser implements User {
 	private $id;
 	private $properties;
 
-	public function __construct(int $id = null, array $properties = null) {
+	public function __construct(string $id = null, array $properties = null) {
 		$this->id = $id;
 		$this->properties = $properties;
 	}
 
-	public function id(): int {
+	public function id(): string {
 		return $this->id;
 	}
 
