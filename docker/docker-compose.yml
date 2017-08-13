@@ -23,4 +23,3 @@ services:
       working_dir: /var/www/Access
       volumes:
           - ./..:/var/www/Access
-          - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
