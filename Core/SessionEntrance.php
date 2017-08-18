@@ -20,7 +20,7 @@ final class SessionEntrance implements Entrance {
 	) {
 		$this->origin = $origin;
 		$this->session = &$session;
-		$this->extension = &$extension;
+		$this->extension = $extension;
 	}
 
 	public function enter(array $credentials): User {
