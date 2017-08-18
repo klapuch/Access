@@ -6,7 +6,6 @@ namespace Klapuch\Access;
  * Entrance to web
  */
 final class WebEntrance implements Entrance {
-	private const IDENTIFIER = 'id';
 	private $database;
 
 	public function __construct(\PDO $database) {

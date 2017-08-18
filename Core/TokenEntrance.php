@@ -7,7 +7,6 @@ namespace Klapuch\Access;
  */
 final class TokenEntrance implements Entrance {
 	private const FORMAT = ['sid_length' => 60, 'sid_bits_per_character' => 6];
-	private const IDENTIFIER = 'id';
 	private $origin;
 
 	public function __construct(Entrance $origin) {

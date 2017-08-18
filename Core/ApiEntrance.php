@@ -6,7 +6,6 @@ namespace Klapuch\Access;
  * Entrance to API with valid token
  */
 final class ApiEntrance implements Entrance {
-	private const IDENTIFIER = 'id';
 	private $database;
 
 	public function __construct(\PDO $database) {

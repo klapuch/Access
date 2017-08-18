@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace Klapuch\Access;
 
 interface Entrance {
+	public const IDENTIFIER = 'id';
 	/**
 	 * Let the user in
 	 * @param array $credentials

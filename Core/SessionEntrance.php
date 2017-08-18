@@ -8,7 +8,6 @@ use Klapuch\Internal;
  * Entrance representing HTTP session
  */
 final class SessionEntrance implements Entrance {
-	private const IDENTIFIER = 'id';
 	private $origin;
 	private $session;
 	private $extension;
