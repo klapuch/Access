@@ -34,7 +34,7 @@ final class SessionEntrance extends Tester\TestCase {
 	}
 
 	/**
-	 * @throws \LogicException You are not logged in
+	 * @throws \UnexpectedValueException You are not logged in
 	 */
 	public function testThrowingOnExitingWithoutSession() {
 		(new Access\SessionEntrance(
